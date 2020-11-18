@@ -9,8 +9,15 @@
 /* eslint-disable prettier/prettier */
 
 import React, {Component} from 'react';
-import {SafeAreaView, View, Text, StatusBar} from 'react-native';
+import {SafeAreaView, View, Text, StyleSheet} from 'react-native';
 import Quotes from './components/Quotes';
+
+const styles = StyleSheet.create({
+  main: {
+    backgroundColor: 'grey',
+    height: 1000,
+  },
+});
 
 class App extends Component {
   constructor(props) {
@@ -19,11 +26,13 @@ class App extends Component {
 
   render() {
     return (
+      <View style={styles.main}>
       <SafeAreaView>
         <View>
           <Quotes/>
         </View>
       </SafeAreaView>
+      </View>
     );
   }
 }

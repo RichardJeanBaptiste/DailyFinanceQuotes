@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+
+  textStyle: {
+    color: 'white',
+  }
 });
 
 class Quotes extends Component {
@@ -36,12 +40,12 @@ class Quotes extends Component {
     return (
       <SafeAreaView>
         <View>
-          <Text>{this.state.author}</Text>
-          <Text>{this.state.quote}</Text>
           <Image
             style={styles.authorImage}
             source={{uri:this.state.imageLink}}
           />
+          <Text style={styles.textStyle}>{this.state.author}</Text>
+          <Text style={styles.textStyle}>{this.state.quote}</Text>
         </View>
       </SafeAreaView>
     );
