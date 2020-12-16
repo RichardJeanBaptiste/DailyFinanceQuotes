@@ -14,7 +14,7 @@ import Quotes from './components/Quotes';
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: 'grey',
+    backgroundColor: 'rgb(34,36,35)',
     height: 1000,
   },
 });
