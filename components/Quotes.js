@@ -1,12 +1,22 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {SafeAreaView, View, Text, Image, StyleSheet} from 'react-native';
+import {SafeAreaView, View, Text, Image, StyleSheet, ScrollView, Button} from 'react-native';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
   authorImage: {
-    width: 75,
-    height: 75,
+    width: 85,
+    height: 85,
+    marginLeft: 16,
+  },
+
+  authorText: {
+    fontSize: 15,
+    marginLeft: 15,
+    fontFamily: 'monospace',
+    color: 'white',
+    fontWeight: 'bold',
   },
 
   lineStyle: {
@@ -19,19 +29,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
-    flexWrap: 'wrap',
     fontFamily: 'monospace',
+    textAlign: 'center',
   },
 
+
   textArea: {
-    marginTop: 150,
-    marginLeft:20,
-    width: 350,
-    flexDirection: 'row',
+    marginTop: '9%',
+    marginHorizontal: '7%',
+    marginLeft: '5%',
+    height: '55%',
   },
 
   titleView: {
-    marginTop: 50,
+    marginTop: 70,
   },
 });
 
@@ -66,14 +77,15 @@ class Quotes extends Component {
               source={{uri:this.state.imageLink}}
             />
 
-            <Text style={styles.textStyle}>{this.state.author}</Text>
+            <Text style={styles.authorText}>{this.state.author}</Text>
 
-            <View style={styles.lineStyle}></View>
+            <View style={styles.lineStyle}/>
         </View>
 
-        <View style={styles.textArea}>
-          <Text style={styles.textStyle}>{this.state.quote}</Text>
-        </View>
+        <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
+            <Text style={styles.textStyle}>{this.state.quote}</Text>
+        </ScrollView>
+
       </SafeAreaView>
     );
   }
