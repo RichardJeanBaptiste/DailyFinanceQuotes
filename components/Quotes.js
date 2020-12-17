@@ -6,24 +6,21 @@ import axios from 'axios';
 
 const styles = StyleSheet.create({
   authorImage: {
-    width: 85,
-    height: 85,
-    marginLeft: 16,
+    width: 90,
+    height: 90,
+    marginLeft: '8%',
   },
 
   authorText: {
-    fontSize: 15,
-    marginLeft: 15,
+    fontSize: 20,
+    marginLeft: '40%',
+    marginTop: '-16%',
     fontFamily: 'monospace',
     color: 'white',
     fontWeight: 'bold',
   },
 
-  lineStyle: {
-    backgroundColor: 'rgb(90,92,90)',
-    height: 5,
-    width: 100,
-  },
+
 
   textStyle: {
     color: 'white',
@@ -35,14 +32,14 @@ const styles = StyleSheet.create({
 
 
   textArea: {
-    marginTop: '9%',
+    marginTop: '18%',
     marginHorizontal: '7%',
     marginLeft: '5%',
     height: '55%',
   },
 
   titleView: {
-    marginTop: 70,
+    marginTop: '25%',
   },
 });
 
@@ -78,8 +75,6 @@ class Quotes extends Component {
             />
 
             <Text style={styles.authorText}>{this.state.author}</Text>
-
-            <View style={styles.lineStyle}/>
         </View>
 
         <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
