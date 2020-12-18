@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {SafeAreaView, View, Text, Image, StyleSheet, ScrollView, Button} from 'react-native';
+import {SafeAreaView, View, Text, Image, StyleSheet, ScrollView} from 'react-native';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
 
 
   textArea: {
-    marginTop: '18%',
+    marginTop: '5%',
     marginHorizontal: '7%',
     marginLeft: '5%',
     height: '55%',
   },
 
   titleView: {
-    marginTop: '25%',
+    marginTop: '12%',
   },
 });
 
@@ -49,6 +49,7 @@ class Quotes extends Component {
     super(props);
     this.state = {author: '',quote: '',res:'',imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nymphenburg-Statue-3f.jpg/220px-Nymphenburg-Statue-3f.jpg'};
   }
+
 
   componentDidMount(){
     axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')

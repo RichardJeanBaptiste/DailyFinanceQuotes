@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -9,8 +10,36 @@
 /* eslint-disable prettier/prettier */
 
 import React, {Component} from 'react';
-import {SafeAreaView, View, Text, StyleSheet} from 'react-native';
+import {SafeAreaView, View, Text, StyleSheet, Button} from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
+
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const HomeStack = createStackNavigator();
+const HomeStackScreen = ({ navigation }) => (
+  <Stack.Navigator>
+        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance Quote'}}/>
+  </Stack.Navigator>
+);
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeStackScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
+
+
+
+
+/*
 
 const styles = StyleSheet.create({
   main: {
@@ -28,9 +57,8 @@ class App extends Component {
     return (
       <View style={styles.main}>
       <SafeAreaView>
-        <View>
-          <Quotes/>
-        </View>
+        <Navbar/>
+        <Quotes/>
       </SafeAreaView>
       </View>
     );
@@ -38,3 +66,4 @@ class App extends Component {
 }
 
 export default App;
+*/
