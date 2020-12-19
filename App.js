@@ -8,11 +8,11 @@
  */
 
 /* eslint-disable prettier/prettier */
-
+import {Swipeable} from  'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Button} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme,DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
 
@@ -32,7 +32,6 @@ const MyTheme = {
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const HomeStack = createStackNavigator();
 const HomeStackScreen = ({ navigation }) => (
   <Stack.Navigator>
         <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance Quote',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
@@ -48,8 +47,6 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-
 
 
 /*
