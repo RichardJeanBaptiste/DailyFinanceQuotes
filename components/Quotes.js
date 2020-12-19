@@ -6,18 +6,18 @@ import axios from 'axios';
 
 const styles = StyleSheet.create({
   authorImage: {
-    width: 90,
-    height: 90,
-    marginLeft: '8%',
+    width: 65,
+    height: 65,
+    marginLeft: '15%',
   },
 
   authorText: {
     fontSize: 20,
-    marginLeft: '40%',
-    marginTop: '-16%',
     fontFamily: 'monospace',
     color: 'white',
     fontWeight: 'bold',
+    marginTop: '8%',
+    marginLeft: '3%',
   },
 
 
@@ -69,17 +69,11 @@ class Quotes extends Component {
   render() {
     return (
       <SafeAreaView>
-        <View style={styles.titleView}>
-            <Image
-              style={styles.authorImage}
-              source={{uri:this.state.imageLink}}
-            />
-
-            <Text style={styles.authorText}>{this.state.author}</Text>
-        </View>
-
+        
         <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
             <Text style={styles.textStyle}>{this.state.quote}</Text>
+            <Text style={styles.authorText}>- {this.state.author}</Text>
+
         </ScrollView>
 
       </SafeAreaView>
@@ -89,3 +83,16 @@ class Quotes extends Component {
 
 
 export default Quotes;
+
+/*
+  <View style={styles.titleView}>
+            <Image
+              style={styles.authorImage}
+              source={{uri:this.state.imageLink}}
+            />
+
+            <Text style={styles.authorText}>{this.state.author}</Text>
+        </View>
+
+
+ */

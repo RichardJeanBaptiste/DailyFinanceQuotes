@@ -19,12 +19,13 @@ import Quotes from './components/Quotes';
 const MyTheme = {
   dark: false,
   colors: {
-    //primary: 'rgb(255, 45, 85)',
-    background: 'rgb(31,25,18)',
+    primary: 'white',
+    background: 'rgb(28,28,28)',
     //card: 'rgb(255, 255, 255)',
     text: 'white',
-    //border: 'rgb(199, 199, 204)',
-    //notification: 'rgb(255, 69, 58)',
+    fontFamily: 'monospace',
+    border: 'transparent',
+    notification: 'rgb(255, 69, 58)',
   },
 };
 
@@ -34,7 +35,7 @@ const Drawer = createDrawerNavigator();
 const HomeStack = createStackNavigator();
 const HomeStackScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance Quote', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance Quote',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
   </Stack.Navigator>
 );
 
