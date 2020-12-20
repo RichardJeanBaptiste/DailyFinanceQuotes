@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import {SafeAreaView, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, ScrollView, View, Linking, Button, Share} from 'react-native';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
@@ -10,7 +10,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 
 const styles = StyleSheet.create({
-  
   authorText: {
     fontSize: 20,
     fontFamily: 'monospace',
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
   textArea: {
     textAlign: 'center',
     marginTop: '13%',
-    //marginHorizontal: '7%',
-    //marginLeft: '5%',
     height: '50%',
   },
 
@@ -48,7 +45,16 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: 'white',
   },
+
+  bottomTabView: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: '24%',
+    marginLeft: '10%',
+  },
 });
+
+const backLog = [];
 
 
 class Quotes extends Component {
@@ -57,6 +63,9 @@ class Quotes extends Component {
     super(props);
     this.state = {author: '',quote: '',res:'',imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nymphenburg-Statue-3f.jpg/220px-Nymphenburg-Statue-3f.jpg'};
     this.newQuote = this.newQuote.bind(this);
+    this.lastQuote = this.lastQuote.bind(this);
+    this.tweetOut = this.tweetOut.bind(this);
+    this.onShare = this.onShare.bind(this);
   }
 
 
@@ -69,11 +78,19 @@ class Quotes extends Component {
                   quote: response.data.quote,
                   imageLink: response.data.image,
                 });
+
+                let current = {
+                  author: response.data.name,
+                  quote: response.data.quote,
+                };
+
+                backLog.push(current);
             })
             .catch(error => {
                 console.log(error);
             });
   }
+
 
   newQuote(){
     axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
@@ -84,10 +101,41 @@ class Quotes extends Component {
                   quote: response.data.quote,
                   imageLink: response.data.image,
                 });
+
+                let current = {
+                  author: response.data.name,
+                  quote: response.data.quote,
+                };
+
+                backLog.push(current);
             })
             .catch(error => {
                 console.log(error);
             });
+  }
+
+  lastQuote(){
+    if (backLog.length === 0){
+      return;
+    }
+    console.log(backLog[backLog.length - 1]);
+  }
+
+  tweetOut(){
+    let author = this.state.author;
+    let quote = this.state.quote;
+
+    Linking.openURL('https://twitter.com/intent/tweet?text=' + quote + ' - ' + author);
+  }
+
+  onShare(){
+
+    const currentMessage = this.state.quote + ' - ' + this.state.author;
+
+    Share.share({
+      message: currentMessage,
+    });
+
   }
 
   render() {
@@ -98,7 +146,13 @@ class Quotes extends Component {
               <Text style={styles.authorText}>- {this.state.author}</Text>
           </ScrollView>
 
-          <FontAwesome5 style={{fontSize: 50, color: 'white', width:70}} name={'comments'} onPress={this.newQuote}/>
+          <View style={styles.bottomTabView}>
+              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-left'} onPress={this.lastQuote}/>
+              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={this.tweetOut}/>
+              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'bookmark'} />
+              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={this.onShare}/>
+              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-right'} onPress={this.newQuote}/>
+          </View>
 
 
       </SafeAreaView>
@@ -110,15 +164,3 @@ class Quotes extends Component {
 
 export default Quotes;
 
-/*
-  <View style={styles.titleView}>
-            <Image
-              style={styles.authorImage}
-              source={{uri:this.state.imageLink}}
-            />
-
-            <Text style={styles.authorText}>{this.state.author}</Text>
-        </View>
-
-
- */
