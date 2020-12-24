@@ -18,6 +18,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SwipeGesture from './SwipeGesture';
 
 
 const styles = StyleSheet.create({
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
 
   textArea: {
     textAlign: 'center',
-    marginTop: '13%',
+    marginTop: '35%',
     height: '50%',
   },
 
@@ -60,9 +61,15 @@ const styles = StyleSheet.create({
   bottomTabView: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: '24%',
-    marginLeft: '10%',
+    marginTop: '25%',
+    marginLeft: '28%',
   },
+
+  swipesGestureContainer: {
+    height: '75%',
+    width: '100%',
+  },
+
 });
 
 const backLog = [];
@@ -78,11 +85,12 @@ class Quotes extends Component {
     this.tweetOut = this.tweetOut.bind(this);
     this.onShare = this.onShare.bind(this);
     this.storeData = this.storeData.bind(this);
+    this.onSwipePerformed = this.onSwipePerformed.bind(this);
   }
 
 
-  async componentDidMount(){
-    await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
+  componentDidMount(){
+    axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
             .then(response => {
                 console.log(response.data.name + '\n' + response.data.quote);
                 this.setState({
@@ -163,18 +171,40 @@ class Quotes extends Component {
     }
   }
 
+  onSwipePerformed = (action) => {
+    /// action : 'left' for left swipe
+    /// action : 'right' for right swipe
+    /// action : 'up' for up swipe
+    /// action : 'down' for down swipe
+
+    switch (action){
+      case 'left':{
+        this.newQuote();
+        console.log('left Swipe performed');
+        break;
+      }
+       case 'right':{
+        console.log('right Swipe performed');
+        break;
+      }
+       default : {
+       console.log('Undeteceted action');
+       }
+    }
+  }
+
   render() {
     return (
       <SafeAreaView>
+
+        <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={this.onSwipePerformed}>
           <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
               <Text style={styles.textStyle}>{this.state.quote}</Text>
               <Text style={styles.authorText}>- {this.state.author}</Text>
           </ScrollView>
+        </SwipeGesture>
 
           <View style={styles.bottomTabView}>
-              <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-left'} onPress={this.lastQuote}/>
-              </TouchableOpacity>
 
               <TouchableOpacity>
                   <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={this.tweetOut}/>
@@ -188,9 +218,6 @@ class Quotes extends Component {
                 <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={this.onShare}/>
               </TouchableOpacity>
 
-              <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-right'} onPress={this.newQuote}/>
-              </TouchableOpacity>
 
           </View>
 
