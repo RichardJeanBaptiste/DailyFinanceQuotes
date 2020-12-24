@@ -1,12 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+
+/**
+ * Store Quotes/ Navigate backwords through quotes
+ * Save Quotes W/ Async Storage
+ *      - Get All Keys
+ *      - Render in New Component
+ * Add Swiping Functionality
+ */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {SafeAreaView, Text, StyleSheet, ScrollView, View, Linking, Button, Share} from 'react-native';
 import axios from 'axios';
+import 'react-native-get-random-values';
+import { v1 as uuidv1 } from 'uuid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const styles = StyleSheet.create({
@@ -66,11 +77,12 @@ class Quotes extends Component {
     this.lastQuote = this.lastQuote.bind(this);
     this.tweetOut = this.tweetOut.bind(this);
     this.onShare = this.onShare.bind(this);
+    this.storeData = this.storeData.bind(this);
   }
 
 
-  componentDidMount(){
-    axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
+  async componentDidMount(){
+    await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
             .then(response => {
                 console.log(response.data.name + '\n' + response.data.quote);
                 this.setState({
@@ -92,8 +104,8 @@ class Quotes extends Component {
   }
 
 
-  newQuote(){
-    axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
+  async newQuote(){
+    await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
             .then(response => {
                 console.log(response.data.name + '\n' + response.data.quote);
                 this.setState({
@@ -138,6 +150,19 @@ class Quotes extends Component {
 
   }
 
+  async storeData(){
+    try {
+      let id = uuidv1();
+      let currentQuote = [this.state.quote,this.state.author];
+      currentQuote = JSON.stringify(currentQuote);
+      console.log(id);
+      console.log(currentQuote);
+      await AsyncStorage.setItem(id,currentQuote);
+    } catch (e){
+      console.log(e);
+    }
+  }
+
   render() {
     return (
       <SafeAreaView>
@@ -147,13 +172,27 @@ class Quotes extends Component {
           </ScrollView>
 
           <View style={styles.bottomTabView}>
-              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-left'} onPress={this.lastQuote}/>
-              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={this.tweetOut}/>
-              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'bookmark'} />
-              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={this.onShare}/>
-              <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-right'} onPress={this.newQuote}/>
-          </View>
+              <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-left'} onPress={this.lastQuote}/>
+              </TouchableOpacity>
 
+              <TouchableOpacity>
+                  <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={this.tweetOut}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'bookmark'} onPress={this.storeData}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={this.onShare}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'arrow-right'} onPress={this.newQuote}/>
+              </TouchableOpacity>
+
+          </View>
 
       </SafeAreaView>
 
