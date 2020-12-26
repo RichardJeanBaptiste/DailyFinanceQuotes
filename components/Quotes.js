@@ -152,10 +152,11 @@ class Quotes extends Component {
   }
 
   lastQuote(){
+    if (index === 1){
+      console.log('end of line');
+      return;
+    }
     try {
-      if (backLog.length <= 0){
-        return;
-      }
       index--;
       console.log(backLog[index - 1]);
 

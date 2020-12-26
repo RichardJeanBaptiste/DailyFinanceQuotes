@@ -35,13 +35,13 @@ const Drawer = createDrawerNavigator();
 
 const HomeStackScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance Quote',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
   </Stack.Navigator>
 );
 
 const BookmarkScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Saved" component={Bookmark} options={{title: 'Daily Finance Quote',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Saved" component={Bookmark} options={{title: 'Daily Finance',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
   </Stack.Navigator>
 );
 
@@ -57,33 +57,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-
-/*
-
-const styles = StyleSheet.create({
-  main: {
-    backgroundColor: 'rgb(31,25,18)',
-    height: 1000,
-  },
-});
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View style={styles.main}>
-      <SafeAreaView>
-        <Navbar/>
-        <Quotes/>
-      </SafeAreaView>
-      </View>
-    );
-  }
-}
-
-export default App;
-*/
