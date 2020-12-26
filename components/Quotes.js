@@ -10,12 +10,11 @@
  */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import {SafeAreaView, Text, StyleSheet, ScrollView, View, Linking, Button, Share} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, ScrollView, View, Linking, Share} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginTop: '25%',
-    marginLeft: '28%',
+    marginLeft: '27%',
   },
 
   swipesGestureContainer: {
@@ -73,6 +72,7 @@ const styles = StyleSheet.create({
 });
 
 const backLog = [];
+let index = 0;
 
 
 class Quotes extends Component {
@@ -105,6 +105,7 @@ class Quotes extends Component {
                 };
 
                 backLog.push(current);
+                index++;
             })
             .catch(error => {
                 console.log(error);
@@ -113,32 +114,59 @@ class Quotes extends Component {
 
 
   async newQuote(){
-    await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
-            .then(response => {
-                console.log(response.data.name + '\n' + response.data.quote);
-                this.setState({
-                  author: response.data.name,
-                  quote: response.data.quote,
-                  imageLink: response.data.image,
-                });
 
-                let current = {
-                  author: response.data.name,
-                  quote: response.data.quote,
-                };
+    if (index === backLog.length){
 
-                backLog.push(current);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+      await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
+      .then(response => {
+          console.log(response.data.name + '\n' + response.data.quote);
+          this.setState({
+            author: response.data.name,
+            quote: response.data.quote,
+            imageLink: response.data.image,
+          });
+
+          let current = {
+            author: response.data.name,
+            quote: response.data.quote,
+          };
+
+          backLog.push(current);
+          index++;
+      })
+      .catch(error => {
+          console.log(error);
+      });
+
+    } else {
+
+      this.setState({
+        author: backLog[index].author,
+        quote: backLog[index].quote,
+      });
+
+      index++;
+
+    }
+
   }
 
   lastQuote(){
-    if (backLog.length === 0){
-      return;
+    try {
+      if (backLog.length <= 0){
+        return;
+      }
+      index--;
+      console.log(backLog[index - 1]);
+
+      this.setState({
+        author: backLog[index - 1].author,
+        quote: backLog[index - 1].quote,
+      });
+
+    } catch (error) {
+      console.log(error);
     }
-    console.log(backLog[backLog.length - 1]);
   }
 
   tweetOut(){
@@ -174,8 +202,6 @@ class Quotes extends Component {
   onSwipePerformed = (action) => {
     /// action : 'left' for left swipe
     /// action : 'right' for right swipe
-    /// action : 'up' for up swipe
-    /// action : 'down' for down swipe
 
     switch (action){
       case 'left':{
@@ -184,6 +210,7 @@ class Quotes extends Component {
         break;
       }
        case 'right':{
+        this.lastQuote();
         console.log('right Swipe performed');
         break;
       }
@@ -211,7 +238,7 @@ class Quotes extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'bookmark'} onPress={this.storeData}/>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70, marginLeft: 12}} name={'bookmark'} onPress={this.storeData}/>
               </TouchableOpacity>
 
               <TouchableOpacity>

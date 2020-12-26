@@ -34,7 +34,6 @@ class Bookmark extends Component {
     return (
       <SafeAreaView>
          <Text>ABCD</Text>
-
       </SafeAreaView>
 
     );
