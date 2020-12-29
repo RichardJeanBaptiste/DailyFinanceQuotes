@@ -190,9 +190,7 @@ class Quotes extends Component {
   async storeData(){
     try {
       let id = uuidv1();
-      let currentQuote = [this.state.quote,this.state.author];
-      currentQuote = JSON.stringify(currentQuote);
-      console.log(id);
+      let currentQuote = JSON.stringify({quote: this.state.quote, author: this.state.author});
       console.log(currentQuote);
       await AsyncStorage.setItem(id,currentQuote);
     } catch (e){

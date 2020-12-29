@@ -1,0 +1,90 @@
+
+/*
+class Bookmark extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {list: '', refresh: true};
+    this.getAllKeys = this.getAllKeys.bind(this);
+    this.keys = [];
+    this.values;
+  }
+
+  async componentDidMount(){
+    try {
+      this.keys = await AsyncStorage.getAllKeys();
+      this.values = await AsyncStorage.multiGet(this.keys);
+    } catch (e){
+        console.log(e);
+    }
+
+  }
+
+
+  getAllKeys = async () => {
+    let keys = [];
+    let values;
+    let test = [];
+    try {
+      keys = await AsyncStorage.getAllKeys();
+      values = await AsyncStorage.multiGet(keys);
+    } catch (e) {
+      // read key error
+      console.log(e);
+    }
+    console.log(values[0]);
+
+    values.map((value) =>
+      test.push({id: value[0], quote: value[1]})
+    );
+
+    this.setState({
+      list: test,
+      refresh: false,
+    });
+    console.log(this.state.list);
+  }
+
+
+  render() {
+
+    const renderQuote = ({ item }) => (
+      <Text>{item.quote}</Text>
+    );
+
+    return (
+      <SafeAreaView>
+        <FlatList
+          data={this.state.list}
+          renderItem={renderQuote}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
+
+    );
+  }
+}
+
+
+export default Bookmark;
+
+*/
+
+
+
+const [list, setList] = useState([]);
+
+  let keys = await AsyncStorage.getAllKeys();
+  let values = await AsyncStorage.multiGet(keys);
+
+  const getSavedQuotes = () => {
+
+    setList([ ... list, {
+      id: values.map((value) => value[0]),
+      quote: values.map((value) => value[1]),
+    }]);
+
+  };
+
+  //console.log(list);
+    
