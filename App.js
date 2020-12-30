@@ -9,13 +9,18 @@
 
 /* eslint-disable prettier/prettier */
 import {Swipeable} from  'react-native-gesture-handler';
-import React, {Component} from 'react';
-import {SafeAreaView, View, Text, StyleSheet, Button} from 'react-native';
+import React, {Component, useEffect} from 'react';
+import {SafeAreaView, View, Text, StyleSheet, Button, LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, DefaultTheme, DarkTheme,DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
+
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.' 
+  // name of the error/warning here, or a regex here
+]);
 
 const MyTheme = {
   dark: false,
@@ -48,6 +53,7 @@ const BookmarkScreen = ({ navigation }) => (
 
 
 export default function App() {
+
   return (
     <NavigationContainer theme={MyTheme}>
       <Drawer.Navigator initialRouteName="Home">
