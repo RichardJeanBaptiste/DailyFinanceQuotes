@@ -16,6 +16,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme,DrawerActions } from '@rea
 import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
+import Authors from './components/Authors';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.' 
@@ -46,7 +47,13 @@ const HomeStackScreen = ({ navigation }) => (
 
 const BookmarkScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Saved" component={Bookmark} options={{title: 'Daily Finance',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Favorites" component={Bookmark} options={{title: 'Favorites',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+  </Stack.Navigator>
+);
+
+const AuthorScreen = ({ navigation }) => (
+  <Stack.Navigator>
+        <Stack.Screen name="Authors" component={Authors} options={{title: 'Authors',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
   </Stack.Navigator>
 );
 
@@ -58,7 +65,8 @@ export default function App() {
     <NavigationContainer theme={MyTheme}>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeStackScreen} />
-        <Drawer.Screen name="Saved" component={BookmarkScreen}/>
+        <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
+        <Drawer.Screen name="Authors" component={AuthorScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -2,11 +2,11 @@
 /* eslint-disable prettier/prettier */
 
 /**
- * 
+ *
  * Save Quotes W/ Async Storage
  *      - Get All Keys
  *      - Render in New Component
- * 
+ *
  * check for new quotes - useFocuseffect()
  * check for duplicate quotes
  * delete quotes onClick
@@ -99,7 +99,7 @@ function Bookmark(){
         <Text style={{color:'white', flex: 3, fontSize: 15, marginTop: 10, width: '84.5%', paddingBottom:'7%', marginLeft: 10}} >{item.quote}</Text>
         <View style={styles.cardButtons}>
             <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 25, color: 'orange', paddingTop: 10, paddingBottom: 15}} name={'bookmark'} onPress={removeBookmark}/>
+                <FontAwesome5 style={{fontSize: 25, color: 'orange', paddingTop: 10, paddingBottom: 15}} name={'trash-alt'} onPress={removeBookmark}/>
             </TouchableOpacity>
             <TouchableOpacity>
                 <FontAwesome5 style={{fontSize: 25, color: 'orange'}} name={'share-alt'} onPress={shareQuote}/>
