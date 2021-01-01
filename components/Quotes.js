@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginTop: '25%',
-    marginLeft: '27%',
+    marginLeft: '8%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   swipesGestureContainer: {
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
 
 const backLog = [];
 let index = 0;
-
 
 class Quotes extends Component {
 
@@ -191,8 +192,23 @@ class Quotes extends Component {
     try {
       let id = uuidv1();
       let currentQuote = this.state.quote + '\n\n' + ' - ' + this.state.author;
-      //console.log(currentQuote);
-      await AsyncStorage.setItem(id,currentQuote);
+      let alreadySaved = false;
+
+      let keys = await AsyncStorage.getAllKeys();
+      let values = await AsyncStorage.multiGet(keys);
+
+      values.map((value) => {
+        if (value[1] === currentQuote){
+          alreadySaved = true;
+          return;
+        }
+      });
+
+      if (alreadySaved){
+        return;
+      } else {
+        await AsyncStorage.setItem(id,currentQuote);
+      }
     } catch (e){
       console.log(e);
     }

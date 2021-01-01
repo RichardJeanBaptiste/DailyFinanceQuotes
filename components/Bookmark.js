@@ -12,22 +12,20 @@
  * delete quotes onClick
  */
 import 'react-native-gesture-handler';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {SafeAreaView, Text, StyleSheet, View, Button, Share , LogBox} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, View, Share} from 'react-native';
 import 'react-native-get-random-values';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { set } from 'react-native-reanimated';
 
 
 function Bookmark(){
 
   const [list, setList] = useState([]);
 
-
+  // Get all saved quotes on intial component render
   useEffect(() => {
 
     const getSavedQuotes = async () => {
@@ -45,6 +43,7 @@ function Bookmark(){
     getSavedQuotes();
   },[]);
 
+  // Get all quotes when screen is focused
   useFocusEffect(
     React.useCallback(()=> {
 
@@ -65,22 +64,47 @@ function Bookmark(){
     },[])
   );
 
-
   const renderQuote = ({item}) => {
     const styles = StyleSheet.create({
       card: {
         borderRadius: 7,
         marginTop: '2%',
-        fontSize: 20,
         backgroundColor: 'rgb(75,77,75)',
+        flex: 1,
         flexDirection: 'row',
-        width: '95%',
-
+      },
+      cardButtons : {
+        alignItems:'flex-end',
+        marginRight: '4%',
+        marginLeft: '4%',
+        flexDirection: 'column',
       },
     });
+
+    // Share Button Function
+    const shareQuote = () => {
+      Share.share({
+        message: item.quote,
+      });
+    };
+
+    // Remove quote from flatlist/asyncstorage
+    const removeBookmark = () => {
+      AsyncStorage.removeItem(item.id);
+      setList(list.filter((itemList) => {return itemList.id !== item.id;}));
+    };
+
     return (
       <View style={styles.card}>
-        <Text style={{color:'white'}} >{item.quote}</Text>
+        <Text style={{color:'white', flex: 3, fontSize: 15, marginTop: 10, width: '84.5%', paddingBottom:'7%', marginLeft: 10}} >{item.quote}</Text>
+        <View style={styles.cardButtons}>
+            <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 25, color: 'orange', paddingTop: 10, paddingBottom: 15}} name={'bookmark'} onPress={removeBookmark}/>
+            </TouchableOpacity>
+            <TouchableOpacity>
+                <FontAwesome5 style={{fontSize: 25, color: 'orange'}} name={'share-alt'} onPress={shareQuote}/>
+            </TouchableOpacity>
+        </View>
       </View>
     );
   };
