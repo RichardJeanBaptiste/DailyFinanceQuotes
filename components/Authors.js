@@ -3,12 +3,10 @@
 
 import React, {useState} from 'react';
 import { Dimensions } from 'react-native';
-import { Button } from 'react-native';
 import { Pressable } from 'react-native';
 import { Modal } from 'react-native';
 import {SafeAreaView, Text, StyleSheet, View, Image, Linking} from 'react-native';
-import { withTheme } from 'react-native-elements';
-import { ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
    authorImage: {
@@ -82,6 +80,9 @@ function Authors() {
   const [modalVisible4, setModalVisible4] = useState(false);
   const [modalVisible5, setModalVisible5] = useState(false);
   const [modalVisible6, setModalVisible6] = useState(false);
+  const [modalVisible7, setModalVisible7] = useState(false);
+  const [modalVisible8, setModalVisible8] = useState(false);
+  const [modalVisible9, setModalVisible9] = useState(false);
 
     return (
       <SafeAreaView>
@@ -126,7 +127,7 @@ function Authors() {
               </Modal>
               <Text style={styles.textStyle}>Warren Buffett</Text>
             </View>
-
+            {/**********************************************************************************************************/}
             <View style={styles.cardStyle}>
               <TouchableOpacity onPress={() => {setModalVisible2(true);}}>
                 <Image
@@ -166,7 +167,7 @@ function Authors() {
               </Modal>
                 <Text style={styles.textStyle}>Benjamin Graham</Text>
             </View>
-
+        {/**********************************************************************************************************/}
         <View style={styles.cardStyle}>
             <TouchableOpacity onPress={() => {setModalVisible3(true);}}>
                 <Image
@@ -206,7 +207,7 @@ function Authors() {
                 <Text style={styles.textStyle}>Robert Kiyosaki</Text>
               </View>
         </View>
-
+        {/**********************************************************************************************************/}
         <View style={styles.rowStyle2}>
             <View style={styles.cardStyle}>
             <TouchableOpacity onPress={() => {setModalVisible4(true);}}>
@@ -331,32 +332,124 @@ function Authors() {
         {/**********************************************************************************************************/}
         <View style={styles.rowStyle3}>
             <View style={styles.cardStyle}>
-              <Image
-                style={styles.authorImage}
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Suze_Orman_Time_100_Shankbone.jpg',
+
+            <TouchableOpacity onPress={() => {setModalVisible7(true);}}>
+                <Image
+                  style={styles.authorImage}
+                  source={{
+                    uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Suze_Orman_Time_100_Shankbone.jpg',
+                  }}
+                />
+              </TouchableOpacity>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible7}
+                onRequestClose={() => {
+                  console.log('Modal closed');
                 }}
-              />
+              >
+              <View style={styles.modalView}>
+                  <Image
+                    style={styles.modalImage}
+                    source={{
+                      uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Suze_Orman_Time_100_Shankbone.jpg',
+                    }}
+                  />
+                  <View style={{marginTop: '5%'}}>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Born - June 5, 1951</Text>
+                    <Text style={{fontFamily: 'monospace',color:'white', fontSize:13}}>
+                    Susan Lynn "Suze" Orman is an American financial advisor, author, and podcast host. In 1987, she founded the Suze Orman Financial Group. Her work as a financial advisor gained notability with The Suze Orman Show, which ran on CNBC from 2002 to 2015.
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', marginTop: '6%', alignContent: 'center', marginLeft: '-6%'}}>
+                    <Pressable style={{paddingRight: 16}} onPress={() => {setModalVisible7(!modalVisible7);}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Close</Text></Pressable>
+                    <Pressable onPress={() => {Linking.openURL('https://en.wikipedia.org/wiki/Suze_Orman');}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Wiki</Text></Pressable>
+                  </View>
+                </View>
+              </Modal>
               <Text style={styles.textStyle}>Suze Orman</Text>
             </View>
         {/**********************************************************************************************************/}
             <View style={styles.cardStyle}>
-              <Image
-                style={styles.authorImage}
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/John_D._Rockefeller_1885.jpg',
+
+            <TouchableOpacity onPress={() => {setModalVisible8(true);}}>
+                <Image
+                  style={styles.authorImage}
+                  source={{
+                    uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/John_D._Rockefeller_1885.jpg',
+                  }}
+                />
+              </TouchableOpacity>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible8}
+                onRequestClose={() => {
+                  console.log('Modal closed');
                 }}
-              />
+              >
+              <View style={styles.modalView}>
+                  <Image
+                    style={styles.modalImage}
+                    source={{
+                      uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/John_D._Rockefeller_1885.jpg',
+                    }}
+                  />
+                  <View style={{marginTop: '5%'}}>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Born - July 8, 1839</Text>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Died - May 23, 1937</Text>
+                    <Text style={{fontFamily: 'monospace',color:'white', fontSize:13}}>
+                    John Davison Rockefeller Sr. was an American business magnate and philanthropist. He is widely considered the wealthiest American of all time and the richest person in modern history.
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', marginTop: '6%', alignContent: 'center', marginLeft: '-6%'}}>
+                    <Pressable style={{paddingRight: 16}} onPress={() => {setModalVisible8(!modalVisible8);}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Close</Text></Pressable>
+                    <Pressable onPress={() => {Linking.openURL('https://en.wikipedia.org/wiki/John_D._Rockefeller');}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Wiki</Text></Pressable>
+                  </View>
+                </View>
+              </Modal>
               <Text style={styles.textStyle}>John D. Rockefeller</Text>
             </View>
         {/**********************************************************************************************************/}
             <View style={styles.cardStyle}>
-              <Image
-                style={styles.authorImage}
-                source={{
-                  uri: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Cornelius_Vanderbilt_Daguerrotype2.jpg',
+
+            <TouchableOpacity onPress={() => {setModalVisible9(true);}}>
+                <Image
+                  style={styles.authorImage}
+                  source={{
+                    uri: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Cornelius_Vanderbilt_Daguerrotype2.jpg',
+                  }}
+                />
+              </TouchableOpacity>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible9}
+                onRequestClose={() => {
+                  console.log('Modal closed');
                 }}
-              />
+              >
+              <View style={styles.modalView}>
+                  <Image
+                    style={styles.modalImage}
+                    source={{
+                      uri: 'https://upload.wikimedia.org/wikipedia/commons/5/57/Cornelius_Vanderbilt_Daguerrotype2.jpg',
+                    }}
+                  />
+                  <View style={{marginTop: '5%'}}>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Born - May 27, 1794</Text>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Died - January 4, 1877</Text>
+                    <Text style={{fontFamily: 'monospace',color:'white', fontSize:13}}>
+                    Cornelius Vanderbilt was an American business magnate who built his wealth in railroads and shipping. After working with his father's business, Vanderbilt worked his way into leadership positions in the inland water trade and invested in the rapidly growing railroad industry.
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row', marginTop: '6%', alignContent: 'center', marginLeft: '-6%'}}>
+                    <Pressable style={{paddingRight: 16}} onPress={() => {setModalVisible9(!modalVisible9);}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Close</Text></Pressable>
+                    <Pressable onPress={() => {Linking.openURL('https://en.wikipedia.org/wiki/Cornelius_Vanderbilt');}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Wiki</Text></Pressable>
+                  </View>
+                </View>
+              </Modal>
               <Text style={styles.textStyle}>Cornelius Vanderbilt</Text>
           </View>
         </View>
