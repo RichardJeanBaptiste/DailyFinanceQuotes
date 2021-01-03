@@ -254,7 +254,7 @@ function Authors() {
                 <Image
                   style={styles.authorImage}
                   source={{
-                    uri: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Napoleon_Hill_headshot.jpg',
+                    uri: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Mellody_Hobson.jpg',
                   }}
                 />
               </TouchableOpacity>
@@ -270,23 +270,22 @@ function Authors() {
                   <Image
                     style={styles.modalImage}
                     source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Napoleon_Hill_headshot.jpg',
+                      uri: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Mellody_Hobson.jpg',
                     }}
                   />
                   <View style={{marginTop: '5%'}}>
-                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Born - October 26, 1883</Text>
-                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Died - November 8, 1970</Text>
+                    <Text style={{textAlign:'left',fontFamily: 'monospace',color:'white', paddingBottom: '2%'}}>Born - April 3, 1969</Text>
                     <Text style={{fontFamily: 'monospace',color:'white', fontSize:13}}>
-                    Oliver Napoleon Hill was an American self-help author. He is known best for his book Think and Grow Rich (1937) which is among the 10 best selling self-help books of all time.
+                    Mellody Hobson is an American businesswoman who is the chairwoman of Starbucks Corporation. She was the president and co-CEO of Ariel Investments.
                     </Text>
                   </View>
                   <View style={{flexDirection: 'row', marginTop: '6%', alignContent: 'center', marginLeft: '-6%'}}>
                     <Pressable style={{paddingRight: 16}} onPress={() => {setModalVisible5(!modalVisible5);}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Close</Text></Pressable>
-                    <Pressable onPress={() => {Linking.openURL('https://en.wikipedia.org/wiki/Napoleon_Hill');}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Wiki</Text></Pressable>
+                    <Pressable onPress={() => {Linking.openURL('https://en.wikipedia.org/wiki/Mellody_Hobson');}}><Text style={{color: 'orange', fontFamily: 'monospace', fontSize: 13}}>Wiki</Text></Pressable>
                   </View>
                 </View>
               </Modal>
-              <Text style={styles.textStyle}>Napoleon Hill</Text>
+              <Text style={styles.textStyle}>Mellody Hobson</Text>
             </View>
             {/**********************************************************************************************************/}
             <View style={styles.cardStyle}>

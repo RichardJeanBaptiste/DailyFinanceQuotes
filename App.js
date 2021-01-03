@@ -17,6 +17,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
 import Authors from './components/Authors';
+import Learn from './components/Learn';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.' 
@@ -57,6 +58,11 @@ const AuthorScreen = ({ navigation }) => (
   </Stack.Navigator>
 );
 
+const LearnScreen = ({ navigation }) => (
+  <Stack.Navigator>
+    <Stack.Screen name="Learn" component={Learn} options={{title: 'Learn',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+  </Stack.Navigator>
+);
 
 
 export default function App() {
@@ -67,6 +73,7 @@ export default function App() {
         <Drawer.Screen name="Home" component={HomeStackScreen} />
         <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
         <Drawer.Screen name="Authors" component={AuthorScreen}/>
+        <Drawer.Screen name="Learn" component={LearnScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
