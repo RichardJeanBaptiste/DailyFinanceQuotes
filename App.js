@@ -8,19 +8,21 @@
  */
 
 /* eslint-disable prettier/prettier */
-import {Swipeable} from  'react-native-gesture-handler';
 import React, {Component, useEffect} from 'react';
-import {SafeAreaView, View, Text, StyleSheet, Button, LogBox} from 'react-native';
+import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer, DefaultTheme, DarkTheme,DrawerActions } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
 import Authors from './components/Authors';
 import Learn from './components/Learn';
+import { DrawerContent } from './components/DrawerContent';
+import { Pressable } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 LogBox.ignoreLogs([
-  'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.' 
+  'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
   // name of the error/warning here, or a regex here
 ]);
 
@@ -32,7 +34,7 @@ const MyTheme = {
     //card: 'rgb(255, 255, 255)',
     text: 'white',
     fontFamily: 'monospace',
-    border: 'transparent',
+    //border: 'transparent',
     notification: 'rgb(255, 69, 58)',
   },
 };
@@ -40,27 +42,61 @@ const MyTheme = {
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+
 const HomeStackScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Home" component={Quotes} options={{title: 'Daily Finance',headerTitleAlign: 'center', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Home" component={Quotes}
+        options={{title: 'Daily Finance',
+        headerTitleAlign: 'center',
+        headerLeft : () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+          </Pressable>
+        ),
+        }}
+        />
   </Stack.Navigator>
 );
 
 const BookmarkScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Favorites" component={Bookmark} options={{title: 'Favorites',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Favorites" component={Bookmark}
+        options={{title: 'Favorites',headerTitleAlign: 'center', 
+        headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
+        headerLeft : () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+          </Pressable>
+        ),
+        }}/>
   </Stack.Navigator>
 );
 
 const AuthorScreen = ({ navigation }) => (
   <Stack.Navigator>
-        <Stack.Screen name="Authors" component={Authors} options={{title: 'Authors',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+        <Stack.Screen name="Authors" component={Authors}
+        options={{title: 'Authors',headerTitleAlign: 'center',
+        headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
+        headerLeft : () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+          </Pressable>
+        ),
+        }}/>
   </Stack.Navigator>
 );
 
 const LearnScreen = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Learn" component={Learn} options={{title: 'Learn',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
+    <Stack.Screen name="Learn" component={Learn}
+    options={{title: 'Learn',headerTitleAlign: 'center',
+    headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
+    headerLeft : () => (
+      <Pressable onPress={() => navigation.openDrawer()}>
+        <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+      </Pressable>
+    ),
+    }}/>
   </Stack.Navigator>
 );
 
@@ -68,9 +104,9 @@ const LearnScreen = ({ navigation }) => (
 export default function App() {
 
   return (
-    <NavigationContainer theme={MyTheme}>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeStackScreen} />
+    <NavigationContainer theme={MyTheme} >
+      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
+        <Drawer.Screen name="Home" component={HomeStackScreen}/>
         <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
         <Drawer.Screen name="Authors" component={AuthorScreen}/>
         <Drawer.Screen name="Learn" component={LearnScreen}/>
