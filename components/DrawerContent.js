@@ -1,20 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React, {Component, useEffect} from 'react';
-import {SafeAreaView, View, Text, StyleSheet, Linking} from 'react-native';
-import { DrawerContentScrollView, DrawerItem, createDrawerNavigator} from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import { DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Learn from './Learn';
 
-const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
-
-const LearnScreen = ({ navigation }) => (
-    <Stack.Navigator>
-      <Stack.Screen name="Learn" component={Learn} options={{title: 'Learn',headerTitleAlign: 'left', headerStyle:{ backgroundColor: 'rgb(28,28,28)'}}}/>
-    </Stack.Navigator>
-  );
 
 const styles = StyleSheet.create({
     drawerStyle:{

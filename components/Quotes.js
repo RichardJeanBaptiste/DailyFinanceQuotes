@@ -18,6 +18,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
+import LoadScreen from './LoadScreen';
 
 
 const styles = StyleSheet.create({
@@ -76,11 +77,13 @@ const styles = StyleSheet.create({
 const backLog = [];
 let index = 0;
 
+
+
 class Quotes extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {author: '',quote: '',res:'',imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nymphenburg-Statue-3f.jpg/220px-Nymphenburg-Statue-3f.jpg'};
+    this.state = {isLoaded: false, author: '',quote: '',res:'',imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nymphenburg-Statue-3f.jpg/220px-Nymphenburg-Statue-3f.jpg'};
     this.newQuote = this.newQuote.bind(this);
     this.lastQuote = this.lastQuote.bind(this);
     this.tweetOut = this.tweetOut.bind(this);
@@ -91,10 +94,12 @@ class Quotes extends Component {
 
 
   componentDidMount(){
-    axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
+    setTimeout(async() => {
+      axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
             .then(response => {
                 console.log(response.data.name + '\n' + response.data.quote);
                 this.setState({
+                  isLoaded: true,
                   author: response.data.name,
                   quote: response.data.quote,
                   imageLink: response.data.image,
@@ -111,6 +116,7 @@ class Quotes extends Component {
             .catch(error => {
                 console.log(error);
             });
+    }, 3500);
   }
 
 
@@ -236,37 +242,50 @@ class Quotes extends Component {
   }
 
   render() {
-    return (
-      <SafeAreaView>
+    if (this.state.isLoaded === false){
+      return (
+        <SafeAreaView>
+          <LoadScreen/>
+        </SafeAreaView>
+      );
+    } else {
+      return (
+        <SafeAreaView>
+          <QuoteScreen quote={this.state.quote} author={this.state.author} tweetOut={this.tweetOut} storeData={this.storeData} onShare={this.onShare} onSwipePerformed={this.onSwipePerformed}/>
+        </SafeAreaView>
+      );
+    }
+  }
+}
 
-        <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={this.onSwipePerformed}>
+function QuoteScreen(props){
+  return (
+    <View>
+      <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={props.onSwipePerformed}>
           <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
-              <Text style={styles.textStyle}>{this.state.quote}</Text>
-              <Text style={styles.authorText}>- {this.state.author}</Text>
+              <Text style={styles.textStyle}>{props.quote}</Text>
+              <Text style={styles.authorText}>- {props.author}</Text>
           </ScrollView>
         </SwipeGesture>
 
           <View style={styles.bottomTabView}>
 
               <TouchableOpacity>
-                  <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={this.tweetOut}/>
+                  <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={props.tweetOut}/>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70, marginLeft: 12}} name={'bookmark'} onPress={this.storeData}/>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70, marginLeft: 12}} name={'bookmark'} onPress={props.storeData}/>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={this.onShare}/>
+                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={props.onShare}/>
               </TouchableOpacity>
 
 
           </View>
-
-      </SafeAreaView>
-
-    );
-  }
+    </View>
+  );
 }
 
 
