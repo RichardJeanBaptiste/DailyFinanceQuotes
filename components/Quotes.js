@@ -19,8 +19,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
+import styles from '../styles/QuoteIndex';
 
-
+/*
 const styles = StyleSheet.create({
   authorText: {
     fontSize: 20,
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
   },
 
 });
+*/
 
 const backLog = [];
 let index = 0;
@@ -260,9 +262,9 @@ class Quotes extends Component {
 
 function QuoteScreen(props){
   return (
-    <View>
+    <View style={{marginTop: '8%'}}>
       <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={props.onSwipePerformed}>
-          <ScrollView style={styles.textArea} contentContainerStyle={{flexGrow: 1, justifyContent:'center'}}>
+          <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
               <Text style={styles.textStyle}>{props.quote}</Text>
               <Text style={styles.authorText}>- {props.author}</Text>
           </ScrollView>
@@ -271,15 +273,15 @@ function QuoteScreen(props){
           <View style={styles.bottomTabView}>
 
               <TouchableOpacity>
-                  <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'twitter'} onPress={props.tweetOut}/>
+                  <FontAwesome5 style={styles.iconStyle} name={'twitter'} onPress={props.tweetOut}/>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70, marginLeft: 12}} name={'bookmark'} onPress={props.storeData}/>
+                <FontAwesome5 style={styles.iconStyle2} name={'bookmark'} onPress={props.storeData}/>
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 40, color: 'white', width:70}} name={'share-alt'} onPress={props.onShare}/>
+                <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={props.onShare}/>
               </TouchableOpacity>
 
 

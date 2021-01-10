@@ -33,7 +33,7 @@ const DATA = [
         id: uuidv1(),
         title: 'Security Analysis',
         image: 'https://images-na.ssl-images-amazon.com/images/I/51hwLfcPJPL._SX324_BO1,204,203,200_.jpg',
-        author: 'Benjamin Graham & David L. Dodd',
+        author: 'Benjamin Graham & \nDavid L. Dodd',
         amazonLink: 'https://www.amazon.com/Security-Analysis-Foreword-Buffett-Editions/dp/0071592539',
     },
     {
