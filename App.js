@@ -8,7 +8,7 @@
  */
 
 /* eslint-disable prettier/prettier */
-import React, {Component, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer} from '@react-navigation/native';
@@ -20,6 +20,7 @@ import Learn from './components/Learn';
 import { DrawerContent } from './components/DrawerContent';
 import { Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import PushNotification from 'react-native-push-notification';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
@@ -61,7 +62,7 @@ const HomeStackScreen = ({ navigation }) => (
 const BookmarkScreen = ({ navigation }) => (
   <Stack.Navigator>
         <Stack.Screen name="Favorites" component={Bookmark}
-        options={{title: 'Favorites',headerTitleAlign: 'center', 
+        options={{title: 'Favorites',headerTitleAlign: 'center',
         headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
         headerLeft : () => (
           <Pressable onPress={() => navigation.openDrawer()}>
@@ -102,6 +103,7 @@ const LearnScreen = ({ navigation }) => (
 
 
 export default function App() {
+
 
   return (
     <NavigationContainer theme={MyTheme} >

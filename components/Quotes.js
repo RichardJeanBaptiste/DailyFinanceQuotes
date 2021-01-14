@@ -1,16 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-/**
- * Store Quotes/ Navigate backwords through quotes
- * Save Quotes W/ Async Storage
- *      - Get All Keys
- *      - Render in New Component
- * Add Swiping Functionality
- */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import {SafeAreaView, Text, StyleSheet, ScrollView, View, Linking, Share} from 'react-native';
+import {SafeAreaView, Text, ScrollView, View, Linking, Share} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
@@ -21,60 +14,7 @@ import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
 import styles from '../styles/QuoteIndex';
 
-/*
-const styles = StyleSheet.create({
-  authorText: {
-    fontSize: 20,
-    fontFamily: 'monospace',
-    color: 'white',
-    fontWeight: 'bold',
-    marginTop: '8%',
-    marginLeft: '3%',
-  },
 
-
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 20,
-    fontFamily: 'monospace',
-    textAlign: 'center',
-  },
-
-
-  textArea: {
-    textAlign: 'center',
-    marginTop: '35%',
-    height: '50%',
-  },
-
-  titleView: {
-    marginTop: '12%',
-  },
-
-  buttonView: {
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-    backgroundColor: 'white',
-  },
-
-  bottomTabView: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: '25%',
-    marginLeft: '8%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  swipesGestureContainer: {
-    height: '75%',
-    width: '100%',
-  },
-
-});
-*/
 
 const backLog = [];
 let index = 0;
@@ -96,6 +36,7 @@ class Quotes extends Component {
 
 
   componentDidMount(){
+
     setTimeout(async() => {
       axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
             .then(response => {
@@ -120,7 +61,6 @@ class Quotes extends Component {
             });
     }, 3500);
   }
-
 
   async newQuote(){
 
@@ -157,7 +97,6 @@ class Quotes extends Component {
       index++;
 
     }
-
   }
 
   lastQuote(){
@@ -223,18 +162,14 @@ class Quotes extends Component {
   }
 
   onSwipePerformed = (action) => {
-    /// action : 'left' for left swipe
-    /// action : 'right' for right swipe
 
     switch (action){
       case 'left':{
         this.newQuote();
-        console.log('left Swipe performed');
         break;
       }
        case 'right':{
         this.lastQuote();
-        console.log('right Swipe performed');
         break;
       }
        default : {

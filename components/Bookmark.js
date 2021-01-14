@@ -14,11 +14,12 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {SafeAreaView, Text, StyleSheet, View, Share} from 'react-native';
+import {SafeAreaView, Text, View, Share} from 'react-native';
 import 'react-native-get-random-values';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from '../styles/BookIndex';
 
 
 function Bookmark(){
@@ -65,22 +66,6 @@ function Bookmark(){
   );
 
   const renderQuote = ({item}) => {
-    const styles = StyleSheet.create({
-      card: {
-        borderRadius: 7,
-        marginTop: '2%',
-        backgroundColor: 'rgb(75,77,75)',
-        flex: 1,
-        flexDirection: 'row',
-      },
-      cardButtons : {
-        alignItems:'flex-end',
-        marginRight: '4%',
-        marginLeft: '4%',
-        flexDirection: 'column',
-      },
-    });
-
     // Share Button Function
     const shareQuote = () => {
       Share.share({
@@ -96,13 +81,13 @@ function Bookmark(){
 
     return (
       <View style={styles.card}>
-        <Text style={{color:'white', flex: 3, fontSize: 15, marginTop: 10, width: '84.5%', paddingBottom:'7%', marginLeft: 10}} >{item.quote}</Text>
+        <Text style={styles.quoteStyle} >{item.quote}</Text>
         <View style={styles.cardButtons}>
             <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 25, color: 'orange', paddingTop: 10, paddingBottom: 15}} name={'trash-alt'} onPress={removeBookmark}/>
+                <FontAwesome5 style={styles.trashIcon} name={'trash-alt'} onPress={removeBookmark}/>
             </TouchableOpacity>
             <TouchableOpacity>
-                <FontAwesome5 style={{fontSize: 25, color: 'orange'}} name={'share-alt'} onPress={shareQuote}/>
+                <FontAwesome5 style={styles.shareIcon} name={'share-alt'} onPress={shareQuote}/>
             </TouchableOpacity>
         </View>
       </View>
