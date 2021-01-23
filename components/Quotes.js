@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
@@ -15,130 +15,96 @@ import LoadScreen from './LoadScreen';
 import styles from '../styles/QuoteIndex';
 
 
+let beginSwiping = false;
+let load = false;
 
-const backLog = [];
-let index = 0;
+function Quotes(){
 
-
-
-class Quotes extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {isLoaded: false, author: '',quote: '',res:'',imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nymphenburg-Statue-3f.jpg/220px-Nymphenburg-Statue-3f.jpg'};
-    this.newQuote = this.newQuote.bind(this);
-    this.lastQuote = this.lastQuote.bind(this);
-    this.tweetOut = this.tweetOut.bind(this);
-    this.onShare = this.onShare.bind(this);
-    this.storeData = this.storeData.bind(this);
-    this.onSwipePerformed = this.onSwipePerformed.bind(this);
-  }
+  const [isLoaded, setisLoaded] = useState(false);
+  const [author, setAuthor] = useState('');
+  const [quote, setQuote] = useState('');
+  const [quoteLog, setQuoteLog] = useState([]);
+  const [index, setIndex] = useState(0);
 
 
-  componentDidMount(){
+  useEffect(()=>{
 
-    setTimeout(async() => {
-      axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
-            .then(response => {
-                console.log(response.data.name + '\n' + response.data.quote);
-                this.setState({
-                  isLoaded: true,
-                  author: response.data.name,
-                  quote: response.data.quote,
-                  imageLink: response.data.image,
-                });
+    if (isLoaded === false){
+      setisLoaded(true);
+      setTimeout(async()=>{
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
+              .then(response => {
+                let temp = [];
 
-                let current = {
-                  author: response.data.name,
-                  quote: response.data.quote,
-                };
+                for (let i = 0; i < 25; i++){
+                  temp.push({
+                    quote:  response.data[i].quote,
+                    author: response.data[i].name,
+                  });
+                }
 
-                backLog.push(current);
-                index++;
-            })
-            .catch(error => {
+                setQuoteLog(temp);
+                setQuote(temp[0].quote);
+                setAuthor(temp[0].author);
+                setisLoaded(true);
+              })
+              .catch(error => {
                 console.log(error);
-            });
-    }, 3500);
-  }
-
-  async newQuote(){
-
-    if (index === backLog.length){
-
-      await axios.get('https://financequotesapi.herokuapp.com/quotes/random/qr')
-      .then(response => {
-          console.log(response.data.name + '\n' + response.data.quote);
-          this.setState({
-            author: response.data.name,
-            quote: response.data.quote,
-            imageLink: response.data.image,
-          });
-
-          let current = {
-            author: response.data.name,
-            quote: response.data.quote,
-          };
-
-          backLog.push(current);
-          index++;
-      })
-      .catch(error => {
-          console.log(error);
-      });
-
+              });
+      }, 3500);
     } else {
-
-      this.setState({
-        author: backLog[index].author,
-        quote: backLog[index].quote,
-      });
-
-      index++;
-
+      load = true;
     }
-  }
 
-  lastQuote(){
-    if (index === 1){
-      console.log('end of line');
-      return;
+  },[isLoaded, quoteLog]);
+
+  useEffect(()=>{
+    if (beginSwiping){
+      setQuote(quoteLog[index].quote);
+      setAuthor(quoteLog[index].author);
     }
-    try {
-      index--;
-      console.log(backLog[index - 1]);
+  },[index,quoteLog]);
 
-      this.setState({
-        author: backLog[index - 1].author,
-        quote: backLog[index - 1].quote,
-      });
-
-    } catch (error) {
-      console.log(error);
+  const dir = (direction) => {
+    beginSwiping = true;
+    if (direction === 'left'){
+      if (index >= quoteLog.length - 1){
+        return;
+      }
+      //test = true;
+      setIndex(() => {return (index + 1);});
+    } else {
+      if (index === 0){
+        return;
+      }
+      setIndex(() => {return (index - 1);});
     }
-  }
+  };
 
-  tweetOut(){
-    let author = this.state.author;
-    let quote = this.state.quote;
 
-    Linking.openURL('https://twitter.com/intent/tweet?text=' + quote + ' - ' + author);
-  }
+  const onSwipePerformed = (action) => {
 
-  onShare(){
+    switch (action){
+      case 'left':{
+        //console.log('left');
+        dir('left');
+        break;
+      }
+       case 'right':{
+        //console.log('right');
+        dir('right');
+        break;
+      }
+       default : {
+       console.log('Undeteceted action');
+       }
+    }
+  };
 
-    const currentMessage = this.state.quote + ' - ' + this.state.author;
-
-    Share.share({
-      message: currentMessage,
-    });
-
-  }
-
-  async storeData(){
+  const storeData = async  () => {
     try {
       let id = uuidv1();
-      let currentQuote = this.state.quote + '\n\n' + ' - ' + this.state.author;
+      let currentQuote = quote + '\n\n' + ' - ' + author;
       let alreadySaved = false;
 
       let keys = await AsyncStorage.getAllKeys();
@@ -159,72 +125,65 @@ class Quotes extends Component {
     } catch (e){
       console.log(e);
     }
-  }
+  };
 
-  onSwipePerformed = (action) => {
+  const tweetOut = () => {
+    Linking.openURL('https://twitter.com/intent/tweet?text=' + quote + ' - ' + author);
+  };
 
-    switch (action){
-      case 'left':{
-        this.newQuote();
-        break;
-      }
-       case 'right':{
-        this.lastQuote();
-        break;
-      }
-       default : {
-       console.log('Undeteceted action');
-       }
-    }
-  }
+  const onShare = () => {
+    const currentMessage = quote + ' - ' + author;
 
-  render() {
-    if (this.state.isLoaded === false){
+    Share.share({
+      message: currentMessage,
+    });
+  };
+
+  function QuoteView(){
+
+    if (load === true){
+      return (
+        <View style={{marginTop:'8%'}}>
+
+          <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
+            <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
+                <Text style={styles.textStyle}>{quote}</Text>
+                <Text style={styles.authorText}> - {author}</Text>
+            </ScrollView>
+          </SwipeGesture>
+
+          <View style={styles.bottomTabView}>
+
+              <TouchableOpacity>
+                  <FontAwesome5 style={styles.iconStyle} name={'twitter'} onPress={tweetOut}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                  <FontAwesome5 style={styles.iconStyle2} name={'bookmark'} onPress={storeData}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                  <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={onShare}/>
+              </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
       return (
         <SafeAreaView>
           <LoadScreen/>
         </SafeAreaView>
       );
-    } else {
-      return (
-        <SafeAreaView>
-          <QuoteScreen quote={this.state.quote} author={this.state.author} tweetOut={this.tweetOut} storeData={this.storeData} onShare={this.onShare} onSwipePerformed={this.onSwipePerformed}/>
-        </SafeAreaView>
-      );
     }
+
   }
-}
 
-function QuoteScreen(props){
   return (
-    <View style={{marginTop: '8%'}}>
-      <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={props.onSwipePerformed}>
-          <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
-              <Text style={styles.textStyle}>{props.quote}</Text>
-              <Text style={styles.authorText}>- {props.author}</Text>
-          </ScrollView>
-        </SwipeGesture>
-
-          <View style={styles.bottomTabView}>
-
-              <TouchableOpacity>
-                  <FontAwesome5 style={styles.iconStyle} name={'twitter'} onPress={props.tweetOut}/>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <FontAwesome5 style={styles.iconStyle2} name={'bookmark'} onPress={props.storeData}/>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={props.onShare}/>
-              </TouchableOpacity>
-
-
-          </View>
-    </View>
+    <SafeAreaView>
+      <QuoteView/>
+    </SafeAreaView>
   );
 }
-
 
 export default Quotes;
 
