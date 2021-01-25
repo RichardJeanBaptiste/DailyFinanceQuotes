@@ -12,11 +12,13 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
+import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
 
 
 let beginSwiping = false;
 let load = false;
+
 
 function Quotes(){
 
@@ -26,17 +28,16 @@ function Quotes(){
   const [quoteLog, setQuoteLog] = useState([]);
   const [index, setIndex] = useState(0);
 
-
   useEffect(()=>{
 
-    if (isLoaded === false){
+    if (load === false){
       setisLoaded(true);
       setTimeout(async()=>{
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/5')
               .then(response => {
                 let temp = [];
 
-                for (let i = 0; i < 25; i++){
+                for (let i = 0; i < 5; i++){
                   temp.push({
                     quote:  response.data[i].quote,
                     author: response.data[i].name,
@@ -46,7 +47,8 @@ function Quotes(){
                 setQuoteLog(temp);
                 setQuote(temp[0].quote);
                 setAuthor(temp[0].author);
-                setisLoaded(true);
+                //setisLoaded(true);
+                load = true;
               })
               .catch(error => {
                 console.log(error);
@@ -56,10 +58,30 @@ function Quotes(){
       load = true;
     }
 
-  },[isLoaded, quoteLog]);
+  },[quoteLog]);
 
   useEffect(()=>{
+
     if (beginSwiping){
+
+      if (index === quoteLog.length - 3){
+        //console.log('need more quotes');
+        let temp = quoteLog;
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/5')
+              .then(response => {
+                for (let i = 0; i < 5; i++){
+                  temp.push({
+                    quote:  response.data[i].quote,
+                    author: response.data[i].name,
+                  });
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+        setQuoteLog(temp);
+      }
+
       setQuote(quoteLog[index].quote);
       setAuthor(quoteLog[index].author);
     }
@@ -71,7 +93,6 @@ function Quotes(){
       if (index >= quoteLog.length - 1){
         return;
       }
-      //test = true;
       setIndex(() => {return (index + 1);});
     } else {
       if (index === 0){
@@ -166,6 +187,7 @@ function Quotes(){
                   <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={onShare}/>
               </TouchableOpacity>
           </View>
+          <BannerAd/>
         </View>
       );
     } else {

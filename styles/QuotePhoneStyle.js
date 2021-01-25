@@ -38,7 +38,7 @@ export default {
       bottomTabView: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: '25%',
+        marginTop: '22%',
         marginLeft: '8%',
         alignItems: 'center',
         justifyContent: 'center',
