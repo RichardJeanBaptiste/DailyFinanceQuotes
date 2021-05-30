@@ -135,6 +135,24 @@ function Authors() {
             wikiLink = "https://en.wikipedia.org/wiki/Cornelius_Vanderbilt"
           />
         </View>
+         {/**********************************************************************************************************/}
+         <View style={styles.rowStyle2}>
+          <AuthorModal
+            author = "Jim Simons"
+            authorImage = "https://upload.wikimedia.org/wikipedia/commons/b/b4/James_Simons_2007.jpg"
+            Born = "Born - April 25, 1938"
+            info = 'James Harris Simons is an American mathematician, billionaire hedge fund manager, and philanthropist.[4] He is the founder of Renaissance Technologies, a quantitative hedge fund based in Setauket-East Setauket, New York. '
+            wikiLink = "https://en.wikipedia.org/wiki/Jim_Simons_(mathematician)"
+          />
+          <AuthorModal
+            author = "Bernard Mannes Baruch"
+            authorImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/BARUCH%2C_BERNARD_2.jpg/220px-BARUCH%2C_BERNARD_2.jpg"
+            Born = "Born - August 19, 1870"
+            Died = "Died - 	June 20, 1965"
+            info = "Bernard Mannes Baruch was an American financier and statesman. According to historian Thomas A. Krueger: For half a century Bernard Baruch was one of the country's richest and most powerful men. A great speculator, public official, presidential counselor, political benefactor, and indefatigable almonor, his public life provides a clear view of the inner workings of the American political system."
+            wikiLink = "https://en.wikipedia.org/wiki/Bernard_Baruch"
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
       );
