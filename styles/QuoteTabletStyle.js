@@ -12,10 +12,11 @@ export default {
 
       textStyle: {
         color: 'white',
-        fontWeight: 'bold',
         fontSize: 40,
-        fontFamily: 'monospace',
+        fontFamily: 'Dosis-Light',
         textAlign: 'center',
+        width: '90%',
+        marginLeft: '5%',
       },
 
       textArea: {

@@ -2,10 +2,10 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import { Dimensions } from 'react-native';
+//import { Dimensions } from 'react-native';
 import { Pressable } from 'react-native';
 import { Modal } from 'react-native';
-import {SafeAreaView, Text, StyleSheet, View, Image, Linking} from 'react-native';
+import {SafeAreaView, Text, View, Image, Linking} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../styles/index';
 
@@ -151,6 +151,13 @@ function Authors() {
             Died = "Died - 	June 20, 1965"
             info = "Bernard Mannes Baruch was an American financier and statesman. According to historian Thomas A. Krueger: For half a century Bernard Baruch was one of the country's richest and most powerful men. A great speculator, public official, presidential counselor, political benefactor, and indefatigable almonor, his public life provides a clear view of the inner workings of the American political system."
             wikiLink = "https://en.wikipedia.org/wiki/Bernard_Baruch"
+          />
+          <AuthorModal
+            author = "Chamath Palihapitiya"
+            authorImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Chamath_Palihapitiya_2016_Dialog_%28cropped%29.jpg/220px-Chamath_Palihapitiya_2016_Dialog_%28cropped%29.jpg"
+            Born = "Born - September 3, 1976"
+            info = "Chamath Palihapitiya  is a Canadian-American venture capitalist, engineer, SPAC sponsor and the founder and CEO of Social Capital. Palihapitiya was born in Sri Lanka, and moved to Canada with his family at the age of six. Palihapitiya was an early senior executive at Facebook, working at the company from 2007 to 2011. Following his departure from Facebook, Palihapitiya started his own fund, The Social+Capital Partnership, through which he invested in several companies, including Yammer and Slack. The Social+Capital Partnership changed its name to Social Capital in 2015"
+            wikiLink = "https://en.wikipedia.org/wiki/Chamath_Palihapitiya"
           />
         </View>
       </ScrollView>

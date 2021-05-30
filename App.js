@@ -17,6 +17,7 @@ import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
 import Authors from './components/Authors';
 import Learn from './components/Learn';
+import About from './components/About';
 import { DrawerContent } from './components/DrawerContent';
 import { Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -101,6 +102,20 @@ const LearnScreen = ({ navigation }) => (
   </Stack.Navigator>
 );
 
+const AboutScreen = ({ navigation }) => (
+  <Stack.Navigator>
+        <Stack.Screen name="About" component={About}
+        options={{title: 'Authors',headerTitleAlign: 'center',
+        headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
+        headerLeft : () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+          </Pressable>
+        ),
+        }}/>
+  </Stack.Navigator>
+);
+
 
 export default function App() {
 
@@ -108,10 +123,12 @@ export default function App() {
   return (
     <NavigationContainer theme={MyTheme} >
       <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
+        {/* Remebering to add drawer item in DrawerContent.js for new screens*/}
         <Drawer.Screen name="Home" component={HomeStackScreen}/>
         <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
         <Drawer.Screen name="Authors" component={AuthorScreen}/>
         <Drawer.Screen name="Learn" component={LearnScreen}/>
+        <Drawer.Screen name="About" component={AboutScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

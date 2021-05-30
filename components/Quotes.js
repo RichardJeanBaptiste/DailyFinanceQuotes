@@ -82,8 +82,15 @@ function Quotes(){
         setQuoteLog(temp);
       }
 
-      setQuote(quoteLog[index].quote);
-      setAuthor(quoteLog[index].author);
+
+      try {
+        setQuote(quoteLog[index].quote);
+        setAuthor(quoteLog[index].author);
+      } catch (error) {
+        setQuote('A fool and his money are soon parted');
+        setAuthor('Thomas Tusser');
+        load = false;
+      }
     }
   },[index,quoteLog]);
 
@@ -169,7 +176,7 @@ function Quotes(){
           <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
             <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
                 <Text style={styles.textStyle}>{quote}</Text>
-                <Text style={styles.authorText}> - {author}</Text>
+                <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
             </ScrollView>
           </SwipeGesture>
 

@@ -5,17 +5,18 @@ export default {
         fontSize: 20,
         fontFamily: 'monospace',
         color: 'white',
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         marginTop: '8%',
-        marginLeft: '3%',
+        marginLeft: '5%',
       },
 
       textStyle: {
         color: 'white',
-        fontWeight: 'bold',
         fontSize: 20,
-        fontFamily: 'monospace',
+        fontFamily: 'Dosis-Light',
         textAlign: 'center',
+        width: '90%',
+        marginLeft: '5%',
       },
 
       textArea: {
