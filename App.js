@@ -8,6 +8,15 @@
  */
 
 /* eslint-disable prettier/prettier */
+
+/**
+ *  Create About Page
+ *  Add Ads to app
+ *  Quotes.js pressable save icon / save icon is orange if quote already save
+ *  smoother loading in learn/author.js
+ *  search through qoutes
+ *  
+ */
 import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
