@@ -29,9 +29,8 @@ build/
 local.properties
 *.iml
 
-android/java_pid1936.hprof
-android/java_pid1380.hprof
-android/java_pid17544.hprof
+*.hprof
+
 # node.js
 #
 node_modules/
