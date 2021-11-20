@@ -3,7 +3,7 @@
 
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, ScrollView, View, Linking, Share} from 'react-native';
+import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Modal, Pressable} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
@@ -14,6 +14,8 @@ import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
 import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
+import MaleBoy from '../assets/male_boy.png';
+import QuoteModal from './QuoteModal';
 
 
 let beginSwiping = false;
@@ -27,6 +29,7 @@ function Quotes(){
   const [quote, setQuote] = useState('');
   const [quoteLog, setQuoteLog] = useState([]);
   const [index, setIndex] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(()=>{
 
@@ -53,7 +56,7 @@ function Quotes(){
               .catch(error => {
                 console.log(error);
               });
-      }, 3500);
+      }, 1000);
     } else {
       load = true;
     }
@@ -171,12 +174,22 @@ function Quotes(){
 
     if (load === true){
       return (
-        <View style={{marginTop:'8%'}}>
+        <View style={{marginTop:'6%'}}>
 
           <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
             <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
+                <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                <Pressable onPress={() => setModalVisible(true)}>
+                    <Image
+                        style={styles.imageStyle}
+                        source={MaleBoy}
+                    />
+                </Pressable>
+                
+                <View style={{ marginTop: '15%'}}>
                 <Text style={styles.textStyle}>{quote}</Text>
                 <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
+                </View>
             </ScrollView>
           </SwipeGesture>
 

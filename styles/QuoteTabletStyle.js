@@ -10,6 +10,11 @@ export default {
         marginLeft: '3%',
       },
 
+      imageStyle: {
+        width: 100,
+        height: 100
+      },
+
       textStyle: {
         color: 'white',
         fontSize: 40,

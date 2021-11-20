@@ -10,6 +10,15 @@ export default {
         marginLeft: '5%',
       },
 
+      imageStyle: {
+        width: 150,
+        height: 150,
+        display: 'flex',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '-2%'
+      },
+
       textStyle: {
         color: 'white',
         fontSize: 20,
@@ -39,15 +48,16 @@ export default {
       bottomTabView: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: '22%',
+        marginTop: '8%',
         marginLeft: '8%',
         alignItems: 'center',
         justifyContent: 'center',
       },
 
       swipesGestureContainer: {
-        height: '75%',
+        height: '85%',
         width: '100%',
+        marginTop: '3%'
       },
 
       iconStyle: {
