@@ -31,6 +31,7 @@ function Quotes(){
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
+  //stuff
   useEffect(()=>{
 
     if (load === false){
