@@ -37,11 +37,11 @@ function Quotes(){
     if (load === false){
       setisLoaded(true);
       setTimeout(async()=>{
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/5')
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/15')
               .then(response => {
                 let temp = [];
 
-                for (let i = 0; i < 5; i++){
+                for (let i = 0; i < 15; i++){
                   temp.push({
                     quote:  response.data[i].quote,
                     author: response.data[i].name,

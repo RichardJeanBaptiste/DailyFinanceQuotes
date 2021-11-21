@@ -128,6 +128,32 @@ const AboutScreen = ({ navigation }) => (
 
 export default function App() {
 
+  useEffect(() => {
+
+    let tommorrow = new Date();
+    tommorrow.setDate(tommorrow.getDate() + 1);
+
+    PushNotification.createChannel({
+      channelId: 'Daily-Channel',
+      channelName: 'Daily-Channel-Notification',
+    })
+
+    
+    PushNotification.getScheduledLocalNotifications((response) => {
+      if(response.length === 0){
+        PushNotification.localNotificationSchedule({
+          channelId: 'Daily-Channel',
+          channelName: 'Daily-Channel-Notification',
+          message: 'Daily Notification',
+          allowWhileIdle: true,
+          date: tommorrow,
+        })  
+      }else{
+        console.log('Notification Exists')
+      }
+    });
+    
+  },[])
 
   return (
     <NavigationContainer theme={MyTheme} >
