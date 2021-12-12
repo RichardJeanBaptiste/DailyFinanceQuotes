@@ -16,6 +16,7 @@ import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
 import MaleBoy from '../assets/male_boy.png';
 import QuoteModal from './QuoteModal';
+import { Button } from 'react-native-elements';
 
 
 let beginSwiping = false;
@@ -27,11 +28,12 @@ function Quotes(){
   const [isLoaded, setisLoaded] = useState(false);
   const [author, setAuthor] = useState('');
   const [quote, setQuote] = useState('');
+  const [imageUrl, setImageUrl] = useState('')
   const [quoteLog, setQuoteLog] = useState([]);
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
-  //stuff
+  //Intial Setup
   useEffect(()=>{
 
     if (load === false){
@@ -45,12 +47,14 @@ function Quotes(){
                   temp.push({
                     quote:  response.data[i].quote,
                     author: response.data[i].name,
+                    image: response.data[i].image,
                   });
                 }
 
                 setQuoteLog(temp);
                 setQuote(temp[0].quote);
                 setAuthor(temp[0].author);
+                setImageUrl(temp[0].image);
                 //setisLoaded(true);
                 load = true;
               })
@@ -64,12 +68,13 @@ function Quotes(){
 
   },[quoteLog]);
 
+
+
   useEffect(()=>{
 
     if (beginSwiping){
 
       if (index === quoteLog.length - 3){
-        //console.log('need more quotes');
         let temp = quoteLog;
         axios.get('https://financequotesapi.herokuapp.com/quotes/random/5')
               .then(response => {
@@ -77,6 +82,7 @@ function Quotes(){
                   temp.push({
                     quote:  response.data[i].quote,
                     author: response.data[i].name,
+                    image: response.data[i].image,
                   });
                 }
               })
@@ -90,6 +96,7 @@ function Quotes(){
       try {
         setQuote(quoteLog[index].quote);
         setAuthor(quoteLog[index].author);
+        setImageUrl(quoteLog[index].image);
       } catch (error) {
         setQuote('A fool and his money are soon parted');
         setAuthor('Thomas Tusser');
@@ -172,7 +179,6 @@ function Quotes(){
   };
 
   function QuoteView(){
-
     if (load === true){
       return (
         <View style={{marginTop:'6%'}}>
@@ -181,12 +187,13 @@ function Quotes(){
             <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
                 <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
                 <Pressable onPress={() => setModalVisible(true)}>
-                    <Image
-                        style={styles.imageStyle}
-                        source={MaleBoy}
-                    />
+                <Image
+                    style={styles.imageStyle}
+                    source={{
+                      uri: imageUrl,
+                    }}
+                />
                 </Pressable>
-                
                 <View style={{ marginTop: '15%'}}>
                 <Text style={styles.textStyle}>{quote}</Text>
                 <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
