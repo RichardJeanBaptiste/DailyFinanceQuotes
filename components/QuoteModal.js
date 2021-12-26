@@ -119,11 +119,6 @@ export default function QuoteModal(props) {
                             <Text style={{ marginTop: 5 }}>Short Bio</Text>
                             <Text style={styles.modalDesc}>{props.bio.desc}</Text>
                           </View>
-                        <Pressable
-                          style={[styles.button, styles.buttonClose]}
-                          onPress={() => props.setModalVisible(!props.modalVisible)}>
-                          <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
                   </ScrollView>
                   </View>
                   </TouchableWithoutFeedback>
