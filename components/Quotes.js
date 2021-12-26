@@ -3,7 +3,7 @@
 
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Modal, Pressable} from 'react-native';
+import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
@@ -190,7 +190,7 @@ function Quotes(){
 
           <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
             <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
-                <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
+                  <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
                 <Pressable onPress={() => setModalVisible(true)}>
                 <Image
                     style={styles.imageStyle}
@@ -235,7 +235,7 @@ function Quotes(){
 
   return (
     <SafeAreaView>
-      <QuoteView/>
+        <QuoteView/>
     </SafeAreaView>
   );
 }

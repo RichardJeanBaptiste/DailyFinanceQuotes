@@ -17,6 +17,7 @@ export default {
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '-2%',
+        resizeMode: 'contain',
       },
 
       textStyle: {
