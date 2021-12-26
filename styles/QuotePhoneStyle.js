@@ -11,19 +11,20 @@ export default {
       },
 
       imageStyle: {
-        width: 150,
-        height: 150,
+        width: 250,
+        height: 250,
         display: 'flex',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: '-2%',
+        marginTop: '-9%',
         resizeMode: 'contain',
+        borderRadius: 15,
       },
 
       textStyle: {
         color: 'white',
         fontSize: 20,
-        fontFamily: 'Dosis-Light',
+        fontFamily: 'Mukta-Regular',
         textAlign: 'center',
         width: '90%',
         marginLeft: '5%',
@@ -58,7 +59,7 @@ export default {
       swipesGestureContainer: {
         height: '85%',
         width: '100%',
-        marginTop: '3%'
+        marginTop: '3%',
       },
 
       iconStyle: {

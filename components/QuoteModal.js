@@ -49,8 +49,11 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'monospace',
   },
   imageStyle: {
     width: 100,
@@ -79,6 +82,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     color: 'white',
     fontSize: 18,
+    fontFamily: 'Mukta-Regular',
   },
   fullView: {
     width: '100%',
@@ -133,10 +137,12 @@ export default function QuoteModal(props) {
                                 <Text style={{ marginTop: 9, color: 'white', fontSize: 16 }}>Short Bio</Text>
                                 <Text style={styles.modalDesc}>{props.bio.desc}</Text>
                               </View>
-                          <Divider/>
+                          <View style={{ marginTop: 40}}>
+                            <Divider/>
+                          </View>
                       </ScrollView>
 
-                      <View style={{ display: 'flex', flexDirection: 'row', marginTop: 45}}>
+                      <View style={{ display: 'flex', flexDirection: 'row', marginTop: 45, marginLeft: 38}}>
                           <Pressable onPress={() => goToWiki(props.bio.wiki)}>
                               <FontAwesome5 style={styles.iconStyle} name={'wikipedia-w'}/>
                           </Pressable>

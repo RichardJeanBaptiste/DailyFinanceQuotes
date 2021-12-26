@@ -14,9 +14,7 @@ import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
 import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
-//import MaleBoy from '../assets/male_boy.png';
 import QuoteModal from './QuoteModal';
-//import { Button } from 'react-native-elements';
 
 
 let beginSwiping = false;
