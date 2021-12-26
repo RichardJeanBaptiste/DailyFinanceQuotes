@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line prettier/prettier
 import React, {useState} from 'react';
-import {View, Modal, Text, Pressable, StyleSheet, Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {View, Modal, Text, StyleSheet, Image, ScrollView, TouchableHighlight, Pressable, Linking} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Divider from './Divider';
 
 const styles = StyleSheet.create({
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     marginTop: '-20%',
     height: 550,
     width: 350,
-    backgroundColor: 'white',
+    backgroundColor: 'rgb(28,28,28)',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+    color: 'white',
   },
   imageStyle: {
     width: 100,
@@ -74,19 +76,34 @@ const styles = StyleSheet.create({
   },
   modalDesc: {
     width: 300,
-    marginTop: 10,
+    marginTop: 30,
+    color: 'white',
+    fontSize: 18,
   },
   fullView: {
     width: '100%',
     height: '100%',
   },
+  iconStyle: {
+    fontSize: 25,
+    color: 'white',
+    width: 70,
+  },
+  closeIcon: {
+    fontSize: 25,
+    color: 'red',
+    width: 70,
+  },
 });
 
 export default function QuoteModal(props) {
-  const [setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const goToWiki = (link) => {
+    Linking.openURL(link);
+  };
 
   return (
-    
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -95,35 +112,41 @@ export default function QuoteModal(props) {
           onRequestClose={() => {
             setModalVisible(!props.modalVisible);
           }}>
-          <TouchableOpacity style={{flex: 1}} onPress={() => props.setModalVisible(!props.modalVisible)}>
-           
-                  <View style={styles.centeredView}>
-                  <TouchableWithoutFeedback>
-                  <View style={styles.modalView}>
-                  <ScrollView style={styles.scrollView}>
+              <View style={styles.centeredView}>
+                      <View style={styles.modalView}>
+                      <ScrollView style={styles.scrollView}>
 
-                      <View style={styles.modalHeader}>
-                        <View style={styles.modalHeaderDesc}>
-                          <Text style={styles.modalText}>{props.author}</Text>
-                          <Text>{props.bio.life}</Text>
-                        </View>
-                          <Image
-                              style={styles.imageStyle}
-                              source={{
-                                uri: props.imageUrl,
-                              }}
-                          />
-                      </View>
-                      <Divider/>
-                          <View>
-                            <Text style={{ marginTop: 5 }}>Short Bio</Text>
-                            <Text style={styles.modalDesc}>{props.bio.desc}</Text>
+                          <View style={styles.modalHeader}>
+                            <View style={styles.modalHeaderDesc}>
+                              <Text style={styles.modalText}>{props.author}</Text>
+                              <Text style={{ color: 'white'}}>{props.bio.life}</Text>
+                            </View>
+                              <Image
+                                  style={styles.imageStyle}
+                                  source={{
+                                    uri: props.imageUrl,
+                                  }}
+                              />
                           </View>
-                  </ScrollView>
-                  </View>
-                  </TouchableWithoutFeedback>
-                </View>
-          </TouchableOpacity>
+                          <Divider/>
+                              <View>
+                                <Text style={{ marginTop: 9, color: 'white', fontSize: 16 }}>Short Bio</Text>
+                                <Text style={styles.modalDesc}>{props.bio.desc}</Text>
+                              </View>
+                          <Divider/>
+                      </ScrollView>
+
+                      <View style={{ display: 'flex', flexDirection: 'row', marginTop: 45}}>
+                          <Pressable onPress={() => goToWiki(props.bio.wiki)}>
+                              <FontAwesome5 style={styles.iconStyle} name={'wikipedia-w'}/>
+                          </Pressable>
+
+                          <Pressable onPress={() => props.setModalVisible(!props.modalVisible)}>
+                            <FontAwesome5 style={styles.closeIcon} name={'times-circle'}/>
+                          </Pressable>
+                        </View>
+                      </View>
+              </View>
         </Modal>
       </View>
   );
