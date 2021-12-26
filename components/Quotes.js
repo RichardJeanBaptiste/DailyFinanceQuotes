@@ -14,9 +14,9 @@ import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
 import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
-import MaleBoy from '../assets/male_boy.png';
+//import MaleBoy from '../assets/male_boy.png';
 import QuoteModal from './QuoteModal';
-import { Button } from 'react-native-elements';
+//import { Button } from 'react-native-elements';
 
 
 let beginSwiping = false;
@@ -28,7 +28,8 @@ function Quotes(){
   const [isLoaded, setisLoaded] = useState(false);
   const [author, setAuthor] = useState('');
   const [quote, setQuote] = useState('');
-  const [imageUrl, setImageUrl] = useState('')
+  const [imageUrl, setImageUrl] = useState('');
+  const [authorBio, setAuthorBio] = useState('');
   const [quoteLog, setQuoteLog] = useState([]);
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -39,7 +40,7 @@ function Quotes(){
     if (load === false){
       setisLoaded(true);
       setTimeout(async()=>{
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/15')
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
               .then(response => {
                 let temp = [];
 
@@ -48,6 +49,7 @@ function Quotes(){
                     quote:  response.data[i].quote,
                     author: response.data[i].name,
                     image: response.data[i].image,
+                    bio: response.data[i].bio,
                   });
                 }
 
@@ -55,6 +57,7 @@ function Quotes(){
                 setQuote(temp[0].quote);
                 setAuthor(temp[0].author);
                 setImageUrl(temp[0].image);
+                setAuthorBio(temp[0].bio);
                 //setisLoaded(true);
                 load = true;
               })
@@ -76,13 +79,14 @@ function Quotes(){
 
       if (index === quoteLog.length - 3){
         let temp = quoteLog;
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/5')
+        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
               .then(response => {
                 for (let i = 0; i < 5; i++){
                   temp.push({
                     quote:  response.data[i].quote,
                     author: response.data[i].name,
                     image: response.data[i].image,
+                    bio: response.data[i].bio,
                   });
                 }
               })
@@ -97,6 +101,7 @@ function Quotes(){
         setQuote(quoteLog[index].quote);
         setAuthor(quoteLog[index].author);
         setImageUrl(quoteLog[index].image);
+        setAuthorBio(quoteLog[index].bio);
       } catch (error) {
         setQuote('A fool and his money are soon parted');
         setAuthor('Thomas Tusser');
@@ -185,7 +190,7 @@ function Quotes(){
 
           <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
             <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
-                <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+                <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
                 <Pressable onPress={() => setModalVisible(true)}>
                 <Image
                     style={styles.imageStyle}

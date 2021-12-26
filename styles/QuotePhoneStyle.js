@@ -17,7 +17,6 @@ export default {
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '-2%',
-        //borderRadius: 20,
       },
 
       textStyle: {
