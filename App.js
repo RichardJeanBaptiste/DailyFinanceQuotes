@@ -146,15 +146,15 @@ export default function App() {
     });
   },[]);
 
+  // <Drawer.Screen name="About" component={AboutScreen}/>
   return (
     <NavigationContainer theme={MyTheme} >
       <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
-        {/* Remebering to add drawer item in DrawerContent.js for new screens*/}
+        {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
         <Drawer.Screen name="Home" component={HomeStackScreen}/>
         <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
         <Drawer.Screen name="Authors" component={AuthorScreen}/>
         <Drawer.Screen name="Learn" component={LearnScreen}/>
-        <Drawer.Screen name="About" component={AboutScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
