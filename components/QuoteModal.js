@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'monospace',
+    fontFamily: 'Mukta-Regular',
   },
   imageStyle: {
     width: 100,

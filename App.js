@@ -9,14 +9,7 @@
 
 /* eslint-disable prettier/prettier */
 
-/**
- *  Create About Page
- *  Add Ads to app
- *  Quotes.js pressable save icon / save icon is orange if quote already save
- *  smoother loading in learn/author.js
- *  search through qoutes
- *  
- */
+
 import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -44,7 +37,7 @@ const MyTheme = {
     background: 'rgb(28,28,28)',
     //card: 'rgb(255, 255, 255)',
     text: 'white',
-    fontFamily: 'monospace',
+    fontFamily: 'Mukta-Regular',
     //border: 'transparent',
     notification: 'rgb(255, 69, 58)',
   },
@@ -148,7 +141,7 @@ export default function App() {
           date: tommorrow,
         });
       } else {
-        console.log('Notification Exists');
+        //console.log('Notification Exists');
       }
     });
   },[]);

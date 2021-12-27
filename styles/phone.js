@@ -22,7 +22,7 @@ export default {
        textAlign: 'center',
        fontWeight: 'bold',
        fontSize: 14,
-       fontFamily: 'monospace',
+       fontFamily: 'Mukta-Regular',
        marginTop: '12%',
       },
       rowStyle: {
@@ -60,13 +60,13 @@ export default {
      },
      lifeText: {
        textAlign: 'left',
-       fontFamily: 'monospace',
+       fontFamily: 'Mukta-Regular',
        color: 'white',
        paddingBottom: '3%',
        fontSize: 13,
      },
      infoText: {
-      fontFamily: 'monospace',
+      fontFamily: 'Mukta-Regular',
       color: 'white',
       fontSize: 13,
     },
@@ -79,7 +79,7 @@ export default {
     },
     footerText: {
       color: 'orange',
-      fontFamily: 'monospace',
+      fontFamily: 'Mukta-Regular',
       fontSize: 13,
     },
 };

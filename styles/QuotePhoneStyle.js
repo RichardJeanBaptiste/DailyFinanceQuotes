@@ -3,7 +3,7 @@
 export default {
     authorText: {
         fontSize: 20,
-        fontFamily: 'monospace',
+        fontFamily: 'Mukta-Regular',
         color: 'white',
         //fontWeight: 'bold',
         marginTop: '8%',
@@ -32,7 +32,7 @@ export default {
 
       textArea: {
         textAlign: 'center',
-        marginTop: '9%',
+        marginTop: '7%',
         height: '75%',
       },
 
@@ -50,7 +50,7 @@ export default {
       bottomTabView: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: '8%',
+        marginTop: '5%',
         marginLeft: '8%',
         alignItems: 'center',
         justifyContent: 'center',

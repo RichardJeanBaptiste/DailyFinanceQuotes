@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import axios from 'axios';
 import 'react-native-get-random-values';
@@ -12,10 +12,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
 import LoadScreen from './LoadScreen';
-import BannerAd from './Ad';
+//import BannerAd from './Ad';
 import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
-
+import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 
 let beginSwiping = false;
 let load = false;
@@ -181,6 +181,7 @@ function Quotes(){
     });
   };
 
+
   function QuoteView(){
     if (load === true){
       return (
@@ -218,7 +219,6 @@ function Quotes(){
                   <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={onShare}/>
               </TouchableOpacity>
           </View>
-          <BannerAd/>
         </View>
       );
     } else {
@@ -232,8 +232,20 @@ function Quotes(){
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1}}>
         <QuoteView/>
+        <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
+              <BannerAd
+                unitId={'ca-app-pub-4929537070408822/6473807185'}
+                size={BannerAdSize.ADAPTIVE_BANNER}
+                requestOptions={{
+                requestNonPersonalizedAdsOnly: true}}
+                onAdLoaded={() => {
+                console.log('Advert loaded');}}
+                onAdFailedToLoad={(error) => {
+                console.error('Advert failed to load: ', error);}}
+              />
+          </View>
     </SafeAreaView>
   );
 }
