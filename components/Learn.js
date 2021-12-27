@@ -80,7 +80,7 @@ const DATA = [
     },
     {
         id: uuidv1(),
-        title: 'The Man Who Solved the Market: \nHow Jim Simons Launched the Quant Revolution',
+        title: 'The Man Who Solved the \nMarket: How Jim Simons Launched the Quant Revolution',
         image: 'https://m.media-amazon.com/images/I/51XscjmkiNL.jpg',
         author: 'Gregory Zuckerman',
         amazonLink: 'https://www.amazon.com/Man-Who-Solved-Market-audiobook/dp/B07VLBSWDC/ref=sr_1_1?crid=3H21HTMDL4631&dchild=1&keywords=the+man+who+solved+the+market&qid=1622338560&sprefix=the+man+who+solved+%2Caps%2C258&sr=8-1',

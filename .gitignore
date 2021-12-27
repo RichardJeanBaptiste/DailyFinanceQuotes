@@ -29,6 +29,8 @@ build/
 local.properties
 *.iml
 
+*.hprof
+
 # node.js
 #
 node_modules/
@@ -57,3 +59,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+
+/android/java_pid1380.hprof
+/android/java_pid17544.hprof
+/android/java_pid1936.hprof

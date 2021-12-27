@@ -3,24 +3,36 @@
 export default {
     authorText: {
         fontSize: 20,
-        fontFamily: 'monospace',
+        fontFamily: 'Mukta-Regular',
         color: 'white',
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         marginTop: '8%',
-        marginLeft: '3%',
+        marginLeft: '5%',
+      },
+
+      imageStyle: {
+        width: 250,
+        height: 250,
+        display: 'flex',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '-9%',
+        resizeMode: 'contain',
+        borderRadius: 15,
       },
 
       textStyle: {
         color: 'white',
-        fontWeight: 'bold',
         fontSize: 20,
-        fontFamily: 'monospace',
+        fontFamily: 'Mukta-Regular',
         textAlign: 'center',
+        width: '90%',
+        marginLeft: '5%',
       },
 
       textArea: {
         textAlign: 'center',
-        marginTop: '9%',
+        marginTop: '7%',
         height: '75%',
       },
 
@@ -38,15 +50,16 @@ export default {
       bottomTabView: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: '25%',
+        marginTop: '5%',
         marginLeft: '8%',
         alignItems: 'center',
         justifyContent: 'center',
       },
 
       swipesGestureContainer: {
-        height: '75%',
+        height: '85%',
         width: '100%',
+        marginTop: '3%',
       },
 
       iconStyle: {

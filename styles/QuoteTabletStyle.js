@@ -3,19 +3,25 @@
 export default {
     authorText: {
         fontSize: 40,
-        fontFamily: 'monospace',
+        fontFamily: 'Mukta-Regular',
         color: 'white',
         fontWeight: 'bold',
         marginTop: '8%',
         marginLeft: '3%',
       },
 
+      imageStyle: {
+        width: 100,
+        height: 100,
+      },
+
       textStyle: {
         color: 'white',
-        fontWeight: 'bold',
         fontSize: 40,
-        fontFamily: 'monospace',
+        fontFamily: 'Mukta-Regular',
         textAlign: 'center',
+        width: '90%',
+        marginLeft: '5%',
       },
 
       textArea: {
