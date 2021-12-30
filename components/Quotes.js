@@ -16,99 +16,75 @@ import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 
-let beginSwiping = false;
-let load = false;
+//let beginSwiping = false;
+//let load = false;
 
 
 function Quotes(){
 
-  const [isLoaded, setisLoaded] = useState(false);
+  const [quoteLog, setQuoteLog] = useState([]);
   const [author, setAuthor] = useState('');
   const [quote, setQuote] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState('https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png');
   const [authorBio, setAuthorBio] = useState('');
-  const [quoteLog, setQuoteLog] = useState([]);
   const [index, setIndex] = useState(0);
+  const [beginSwiping, setBeginSwiping] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   //Intial Setup
-  useEffect(()=>{
+  useEffect(() => {
 
-    if (load === false){
-      setisLoaded(true);
-      setTimeout(async()=>{
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
-              .then(response => {
-                let temp = [];
+    fetch('https://financequotesapi.herokuapp.com/list/rand/limit=25')
+    .then(response => response.json())
+    .then(data => {
+      setQuoteLog(data);
+      setQuote(data[0].quote);
+      setAuthor(data[0].name);
+      setImageUrl(data[0].image);
+      setAuthorBio(data[0].bio);
+    })
+    .catch(error => console.log(error));
 
-                for (let i = 0; i < 15; i++){
-                  temp.push({
-                    quote:  response.data[i].quote,
-                    author: response.data[i].name,
-                    image: response.data[i].image,
-                    bio: response.data[i].bio,
-                  });
-                }
+  },[]);
 
-                setQuoteLog(temp);
-                setQuote(temp[0].quote);
-                setAuthor(temp[0].author);
-                setImageUrl(temp[0].image);
-                setAuthorBio(temp[0].bio);
-                //setisLoaded(true);
-                load = true;
-              })
-              .catch(error => {
-                console.log(error);
-              });
-      }, 1000);
-    } else {
-      load = true;
-    }
-
-  },[quoteLog]);
-
-
-
-  useEffect(()=>{
-
+  useEffect(() => {
     if (beginSwiping){
-
+      // Add more quotes to quotelog state
       if (index === quoteLog.length - 3){
         let temp = quoteLog;
-        axios.get('https://financequotesapi.herokuapp.com/quotes/random/25')
-              .then(response => {
-                for (let i = 0; i < 5; i++){
-                  temp.push({
-                    quote:  response.data[i].quote,
-                    author: response.data[i].name,
-                    image: response.data[i].image,
-                    bio: response.data[i].bio,
-                  });
-                }
-              })
-              .catch(error => {
-                console.log(error);
-              });
-        setQuoteLog(temp);
+
+        fetch('https://financequotesapi.herokuapp.com/list/rand/limit=25')
+       .then(response => response.json())
+       .then(data => {
+          for (let i = 0; i < 25; i++){
+            temp.push({
+              quote: (data[i].quote),
+              author: (data[i].name),
+              imageUrl: (data[i].image),
+              bio: (data[i].bio),
+            });
+          }
+
+          setQuoteLog(temp);
+       })
+       .catch(error => console.log(error));
       }
 
-
+      // set next quote
       try {
         setQuote(quoteLog[index].quote);
-        setAuthor(quoteLog[index].author);
+        setAuthor(quoteLog[index].name);
         setImageUrl(quoteLog[index].image);
         setAuthorBio(quoteLog[index].bio);
       } catch (error) {
         setQuote('A fool and his money are soon parted');
         setAuthor('Thomas Tusser');
-        load = false;
       }
     }
-  },[index,quoteLog]);
+  },[beginSwiping, quoteLog, index]);
 
   const dir = (direction) => {
-    beginSwiping = true;
+    setBeginSwiping(true);
     if (direction === 'left'){
       if (index >= quoteLog.length - 1){
         return;
@@ -180,32 +156,32 @@ function Quotes(){
     });
   };
 
-
   function QuoteView(){
-    if (load === true){
       return (
         <View style={{marginTop:'6%'}}>
 
+          {/** Quote View */}
           <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
-            <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
-                  <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
-                <Pressable onPress={() => setModalVisible(true)}>
-                <Image
-                    style={styles.imageStyle}
-                    source={{
-                      uri: imageUrl,
-                    }}
-                />
-                </Pressable>
-                <View style={{ marginTop: '15%'}}>
-                <Text style={styles.textStyle}>{quote}</Text>
-                <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
-                </View>
-            </ScrollView>
+              <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
+                    <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
+                  <Pressable onPress={() => setModalVisible(true)}>
+                  <Image
+                      style={styles.imageStyle}
+                      source={{
+                        uri: imageUrl,
+                      }}
+                  />
+                  </Pressable>
+                  <View style={{ marginTop: '15%'}}>
+                  <Text style={styles.textStyle}>{quote}</Text>
+                  <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
+                  </View>
+              </ScrollView>
           </SwipeGesture>
 
-          <View style={styles.bottomTabView}>
 
+          {/** Botttom Icons */}
+          <View style={styles.bottomTabView}>
               <TouchableOpacity>
                   <FontAwesome5 style={styles.iconStyle} name={'twitter'} onPress={tweetOut}/>
               </TouchableOpacity>
@@ -220,14 +196,6 @@ function Quotes(){
           </View>
         </View>
       );
-    } else {
-      return (
-        <SafeAreaView>
-          <LoadScreen/>
-        </SafeAreaView>
-      );
-    }
-
   }
 
   return (
@@ -235,7 +203,7 @@ function Quotes(){
         <QuoteView/>
         <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
               <BannerAd
-                unitId={'ca-app-pub-4929537070408822/6473807185'}
+                unitId={TestIds.BANNER}
                 size={BannerAdSize.ADAPTIVE_BANNER}
                 requestOptions={{
                 requestNonPersonalizedAdsOnly: true}}
