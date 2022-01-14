@@ -5,7 +5,6 @@ export default {
         fontSize: 20,
         fontFamily: 'Mukta-Regular',
         color: 'white',
-        //fontWeight: 'bold',
         marginTop: '8%',
         marginLeft: '5%',
       },
@@ -31,9 +30,10 @@ export default {
       },
 
       textArea: {
+        flex: 1,
         textAlign: 'center',
-        marginTop: '7%',
-        height: '75%',
+        //marginTop: '-18%',
+        //height: '25%',
       },
 
       titleView: {
@@ -49,8 +49,9 @@ export default {
 
       bottomTabView: {
         flex: 1,
+        //display: 'flex',
         flexDirection: 'row',
-        marginTop: '5%',
+        //marginTop: '-25%',
         marginLeft: '8%',
         alignItems: 'center',
         justifyContent: 'center',
@@ -73,5 +74,17 @@ export default {
           color: 'white',
           width: 70,
           marginLeft: 12,
+      },
+
+      authorInfoStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+      },
+
+      authorInfoName: {
+        fontSize: 25,
+        fontFamily: 'Mukta-Regular',
+        color: 'white',
+        marginLeft: '5%',
       },
 };

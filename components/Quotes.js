@@ -4,21 +4,16 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
-import axios from 'axios';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
-import LoadScreen from './LoadScreen';
-import styles from '../styles/QuoteIndex';
+//import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
+//import Divider from './Divider';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
-
-//let beginSwiping = false;
-//let load = false;
-
 
 function Quotes(){
 
@@ -26,15 +21,16 @@ function Quotes(){
   const [author, setAuthor] = useState('');
   const [quote, setQuote] = useState('');
   const [imageUrl, setImageUrl] = useState('https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png');
-  const [authorBio, setAuthorBio] = useState('');
+  const [authorBio, setAuthorBio] = useState([]);
   const [index, setIndex] = useState(0);
   const [beginSwiping, setBeginSwiping] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  //const [loadingQuotes, setLoadingQuotes] = useState(false);
 
   //Intial Setup
   useEffect(() => {
 
-    fetch('https://financequotesapi.herokuapp.com/list/rand/limit=25')
+    fetch('https://financequotesapi.herokuapp.com/quotes/all/random/limit=5')
     .then(response => response.json())
     .then(data => {
       setQuoteLog(data);
@@ -44,44 +40,38 @@ function Quotes(){
       setAuthorBio(data[0].bio);
     })
     .catch(error => console.log(error));
-
   },[]);
 
+
+  // Add More Quotes
   useEffect(() => {
-    if (beginSwiping){
-      // Add more quotes to quotelog state
-      if (index === quoteLog.length - 3){
-        let temp = quoteLog;
 
-        fetch('https://financequotesapi.herokuapp.com/list/rand/limit=25')
-       .then(response => response.json())
-       .then(data => {
-          for (let i = 0; i < 25; i++){
-            temp.push({
-              quote: (data[i].quote),
-              author: (data[i].name),
-              imageUrl: (data[i].image),
-              bio: (data[i].bio),
-            });
-          }
+      if (beginSwiping) {
+        if (quoteLog[index] === undefined){
+          //do nothing
+          console.log('undefined error');
+          fetch('https://financequotesapi.herokuapp.com/quotes/all/random/')
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('HTTP error' + response.status);
+              }
 
-          setQuoteLog(temp);
-       })
-       .catch(error => console.log(error));
+              return response.json();
+            })
+            .then(data => {
+              let temp = [...quoteLog];
+              temp.push(data);
+              setQuoteLog(temp);
+          });
+        } else {
+          setQuote(quoteLog[index].quote);
+          setAuthor(quoteLog[index].name);
+          setImageUrl(quoteLog[index].image);
+          setAuthorBio(quoteLog[index].bio);
+        }
       }
 
-      // set next quote
-      try {
-        setQuote(quoteLog[index].quote);
-        setAuthor(quoteLog[index].name);
-        setImageUrl(quoteLog[index].image);
-        setAuthorBio(quoteLog[index].bio);
-      } catch (error) {
-        setQuote('A fool and his money are soon parted');
-        setAuthor('Thomas Tusser');
-      }
-    }
-  },[beginSwiping, quoteLog, index]);
+  },[index, quoteLog, beginSwiping]);
 
   const dir = (direction) => {
     setBeginSwiping(true);
@@ -90,6 +80,14 @@ function Quotes(){
         return;
       }
       setIndex(() => {return (index + 1);});
+      // add new quote
+      fetch('https://financequotesapi.herokuapp.com/quotes/all/random/')
+      .then(response => response.json())
+      .then(data => {
+        let temp = [...quoteLog];
+        temp.push(data);
+        setQuoteLog(temp);
+      });
     } else {
       if (index === 0){
         return;
@@ -103,12 +101,10 @@ function Quotes(){
 
     switch (action){
       case 'left':{
-        //console.log('left');
         dir('left');
         break;
       }
        case 'right':{
-        //console.log('right');
         dir('right');
         break;
       }
@@ -156,43 +152,70 @@ function Quotes(){
     });
   };
 
+  const displayModal = () => {
+
+    let show = modalVisible ? 'block' : 'none';
+
+    return ({
+      display: show,
+    });
+  };
+
   function QuoteView(){
       return (
         <View style={{marginTop:'6%'}}>
 
-          {/** Quote View */}
-          <SwipeGesture gestureStyle={styles.swipesGestureContainer} onSwipePerformed={onSwipePerformed}>
-              <ScrollView style={styles.textArea} contentContainerStyle={{ justifyContent:'center',paddingBottom: '15%', paddingTop:'2%'}}>
-                    <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
-                  <Pressable onPress={() => setModalVisible(true)}>
+          <View style={{
+            flex: 1,
+            marginTop: '3%',
+            flexDirection: 'row',
+          }}>
+            <View style={{ marginLeft: '8%'}}>
+              <Pressable onPress={() => setModalVisible(true)}>
                   <Image
-                      style={styles.imageStyle}
-                      source={{
-                        uri: imageUrl,
-                      }}
+                    style={{ width: 70, height: 70, borderRadius: 35}}
+                    source={{
+                      uri: imageUrl,
+                    }}
+                    resizeMode="cover"
                   />
-                  </Pressable>
-                  <View style={{ marginTop: '15%'}}>
-                  <Text style={styles.textStyle}>{quote}</Text>
-                  <Text style={styles.authorText}> - <Text style={{textDecorationLine:'underline'}}>{author}</Text></Text>
-                  </View>
-              </ScrollView>
-          </SwipeGesture>
+              </Pressable>
+            </View>
 
+            <View style={{ marginLeft: '5%', marginTop: '.2%', width: '65%'}}>
+              <Text style={{ fontSize: 18, color: 'white', textTransform:'capitalize', fontWeight: '400', paddingBottom: '2.5%' }}>{author}</Text>
+              <Text style={{ color: 'white', fontSize: 16, paddingBottom: '6%' }}>Occupation</Text>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}/>
+            </View>
+          </View>
 
-          {/** Botttom Icons */}
-          <View style={styles.bottomTabView}>
-              <TouchableOpacity>
-                  <FontAwesome5 style={styles.iconStyle} name={'twitter'} onPress={tweetOut}/>
-              </TouchableOpacity>
+          {/** Quotes Container */}
+          <View style={{ height: '80%', marginTop: '3%'}}>
+          <View style={displayModal}>
+            <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
+          </View>
+              <SwipeGesture style={{height: '85%', width: '100%', marginTop: '3%'}} onSwipePerformed={onSwipePerformed}>
+                  <ScrollView>
+                      <Text style={{ color: 'white', fontSize: 23, width: '80%', textAlign: 'center', marginLeft: '11%', marginTop: '4%'}}>
+                        {quote}
+                      </Text>
 
-              <TouchableOpacity>
-                  <FontAwesome5 style={styles.iconStyle2} name={'bookmark'} onPress={storeData}/>
-              </TouchableOpacity>
+                      {/** Botttom Icons */}
+                    <View style={{ display: 'flex', flexDirection: 'row', marginTop: '15%', justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity>
+                          <FontAwesome5 style={{ fontSize: 25, color: 'white',paddingRight: '9%'}} name={'twitter'} onPress={tweetOut}/>
+                      </TouchableOpacity>
 
-              <TouchableOpacity>
-                  <FontAwesome5 style={styles.iconStyle} name={'share-alt'} onPress={onShare}/>
-              </TouchableOpacity>
+                      <TouchableOpacity>
+                          <FontAwesome5 style={{ fontSize: 25, color: 'white', paddingRight: '9%'}} name={'bookmark'} onPress={storeData}/>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity>
+                          <FontAwesome5 style={{ fontSize: 25, color: 'white'}} name={'share-alt'} onPress={onShare}/>
+                      </TouchableOpacity>
+                    </View>
+                  </ScrollView>
+              </SwipeGesture>
           </View>
         </View>
       );
