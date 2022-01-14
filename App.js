@@ -10,7 +10,7 @@
 /* eslint-disable prettier/prettier */
 
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer} from '@react-navigation/native';
@@ -19,11 +19,12 @@ import Quotes from './components/Quotes';
 import Bookmark from './components/Bookmark';
 import Authors from './components/Authors';
 import Learn from './components/Learn';
-import About from './components/About';
+//import About from './components/About';
 import { DrawerContent } from './components/DrawerContent';
 import { Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import PushNotification from 'react-native-push-notification';
+import LoadScreen from './components/LoadScreen';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
@@ -104,6 +105,7 @@ const LearnScreen = ({ navigation }) => (
   </Stack.Navigator>
 );
 
+/*
 const AboutScreen = ({ navigation }) => (
   <Stack.Navigator>
         <Stack.Screen name="About" component={About}
@@ -117,9 +119,21 @@ const AboutScreen = ({ navigation }) => (
         }}/>
   </Stack.Navigator>
 );
-
+*/
 
 export default function App() {
+
+  const [ isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      setIsLoaded(true);
+    },2000);
+
+  },[]);
+
+
 
   useEffect(() => {
 
@@ -146,16 +160,28 @@ export default function App() {
     });
   },[]);
 
+  const LoadContainer = () => {
+    if (isLoaded){
+      return (
+          <NavigationContainer theme={MyTheme} >
+            <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
+              {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
+              <Drawer.Screen name="Home" component={HomeStackScreen}/>
+              <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
+              <Drawer.Screen name="Authors" component={AuthorScreen}/>
+              <Drawer.Screen name="Learn" component={LearnScreen}/>
+            </Drawer.Navigator>
+        </NavigationContainer>
+      );
+    } else {
+      return (
+        <LoadScreen />
+      );
+    }
+  };
+
   // <Drawer.Screen name="About" component={AboutScreen}/>
   return (
-    <NavigationContainer theme={MyTheme} >
-      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
-        {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
-        <Drawer.Screen name="Home" component={HomeStackScreen}/>
-        <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
-        <Drawer.Screen name="Authors" component={AuthorScreen}/>
-        <Drawer.Screen name="Learn" component={LearnScreen}/>
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <LoadContainer/>
   );
 }

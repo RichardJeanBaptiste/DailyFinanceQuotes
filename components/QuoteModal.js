@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 18,
-    //height: 100,
   },
   modalView: {
     margin: 20,
@@ -54,6 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     fontFamily: 'Mukta-Regular',
+    textTransform: 'capitalize',
   },
   imageStyle: {
     width: 100,
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 });
 
 export default function QuoteModal(props) {
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const goToWiki = (link) => {

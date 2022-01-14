@@ -8,7 +8,7 @@ import LottieView from 'lottie-react-native';
 
 function LoadScreen(){
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ backgroundColor: 'rgb(28,28,28)', height: '100%' }}>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <LottieView style={{height: '85%', width: '60%'}} source={require('../assets/38217-money-growth.json')} autoPlay loop/>
                 <Text style={{color: 'white', textAlignVertical: 'center', textAlign: 'center', fontFamily: 'monospace', fontSize: 20, fontWeight: 'bold'}}>Preparing Your Quotes</Text>
