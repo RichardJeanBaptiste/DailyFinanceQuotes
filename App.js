@@ -123,15 +123,15 @@ const AboutScreen = ({ navigation }) => (
 
 export default function App() {
 
-  const [ isLoaded, setIsLoaded] = useState(false);
+  // const [ isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    setTimeout(() => {
-      setIsLoaded(true);
-    },2000);
+  //   setTimeout(() => {
+  //     setIsLoaded(true);
+  //   },2000);
 
-  },[]);
+  // },[isLoaded, setIsLoaded]);
 
 
 
@@ -160,28 +160,42 @@ export default function App() {
     });
   },[]);
 
-  const LoadContainer = () => {
-    if (isLoaded){
-      return (
-          <NavigationContainer theme={MyTheme} >
-            <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
-              {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
-              <Drawer.Screen name="Home" component={HomeStackScreen}/>
-              <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
+  return (
+     <NavigationContainer theme={MyTheme} >
+             <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
+               {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
+               <Drawer.Screen name="Home" component={HomeStackScreen}/>
+               <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
               <Drawer.Screen name="Authors" component={AuthorScreen}/>
               <Drawer.Screen name="Learn" component={LearnScreen}/>
             </Drawer.Navigator>
         </NavigationContainer>
-      );
-    } else {
-      return (
-        <LoadScreen />
-      );
-    }
-  };
-
-  // <Drawer.Screen name="About" component={AboutScreen}/>
-  return (
-    <LoadContainer/>
   );
 }
+
+
+
+// const LoadContainer = () => {
+  //   if (isLoaded){
+  //     return (
+  //         <NavigationContainer theme={MyTheme} >
+  //           <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
+  //             {/* Remeber to add drawer item in DrawerContent.js for new screens*/}
+  //             <Drawer.Screen name="Home" component={HomeStackScreen}/>
+  //             <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
+  //             <Drawer.Screen name="Authors" component={AuthorScreen}/>
+  //             <Drawer.Screen name="Learn" component={LearnScreen}/>
+  //           </Drawer.Navigator>
+  //       </NavigationContainer>
+  //     );
+  //   } else {
+  //     return (
+  //       <LoadScreen />
+  //     );
+  //   }
+  // };
+  
+  // // <Drawer.Screen name="About" component={AboutScreen}/>
+  // return (
+  //   <LoadContainer/>
+  // );
