@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
@@ -12,93 +12,76 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
 //import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
+import LoadScreen from './LoadScreen';
 //import Divider from './Divider';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
+const queryClient = new QueryClient();
+
+export default function QuoteScreen() {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaView style={{ flex: 1}}>
+          <Quotes/>
+            <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
+                <BannerAd
+                  unitId={TestIds.BANNER}
+                  size={BannerAdSize.ADAPTIVE_BANNER}
+                  requestOptions={{
+                  requestNonPersonalizedAdsOnly: true}}
+                  onAdLoaded={() => {
+                  console.log('Advert loaded');}}
+                  onAdFailedToLoad={(e) => {
+                  console.error('Advert failed to load: ', e);}}
+                />
+            </View>
+        </SafeAreaView>
+      </QueryClientProvider>
+    );
+}
 
 function Quotes(){
 
-  const [quoteLog, setQuoteLog] = useState([]);
-  const [author, setAuthor] = useState('');
-  const [quote, setQuote] = useState('');
-  const [imageUrl, setImageUrl] = useState('https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png');
-  const [authorBio, setAuthorBio] = useState([]);
+  const [ quoteLog, setQuoteLog ] = useState([Math.floor(Math.random() * 847)]);
   const [index, setIndex] = useState(0);
-  const [beginSwiping, setBeginSwiping] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  //const [loadingQuotes, setLoadingQuotes] = useState(false);
 
-  //Intial Setup
-  useEffect(() => {
-
-    fetch('https://financequotesapi.herokuapp.com/quotes/all/random/limit=5')
-    .then(response => response.json())
-    .then(data => {
-      setQuoteLog(data);
-      setQuote(data[0].quote);
-      setAuthor(data[0].name);
-      setImageUrl(data[0].image);
-      setAuthorBio(data[0].bio);
-    })
-    .catch(error => console.log(error));
-  },[]);
+  // Load Quotes
+  const { isLoading, error, data } = useQuery('repoData', () =>
+    fetch('https://financequotesapi.herokuapp.com/quotes/all').then(res =>
+      res.json()
+    )
+  );
 
 
-  // Add More Quotes
-  useEffect(() => {
+  // Handle Quote Changes
 
-      if (beginSwiping) {
-        if (quoteLog[index] === undefined){
-          //do nothing
-          console.log('undefined error');
-          fetch('https://financequotesapi.herokuapp.com/quotes/all/random/')
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('HTTP error' + response.status);
-              }
+  const randomNumber = () => {
+    return Math.floor(Math.random() * 847);
+  };
 
-              return response.json();
-            })
-            .then(data => {
-              let temp = [...quoteLog];
-              temp.push(data);
-              setQuoteLog(temp);
-          });
-        } else {
-          setQuote(quoteLog[index].quote);
-          setAuthor(quoteLog[index].name);
-          setImageUrl(quoteLog[index].image);
-          setAuthorBio(quoteLog[index].bio);
-        }
-      }
+  const getNextQuote = () => {
+    let temp = [...quoteLog];
+    temp.push(randomNumber());
+    setQuoteLog(temp);
+    setIndex(() => index + 1);
+  };
 
-  },[index, quoteLog, beginSwiping]);
+  const previousQuote = () => {
+      if (index === 0) return;
+      setIndex(() => index - 1);
+  };
 
   const dir = (direction) => {
-    setBeginSwiping(true);
     if (direction === 'left'){
-      if (index >= quoteLog.length - 1){
-        return;
-      }
-      setIndex(() => {return (index + 1);});
-      // add new quote
-      fetch('https://financequotesapi.herokuapp.com/quotes/all/random/')
-      .then(response => response.json())
-      .then(data => {
-        let temp = [...quoteLog];
-        temp.push(data);
-        setQuoteLog(temp);
-      });
+      getNextQuote();
     } else {
-      if (index === 0){
-        return;
-      }
-      setIndex(() => {return (index - 1);});
+      previousQuote();
     }
   };
 
-
   const onSwipePerformed = (action) => {
-
     switch (action){
       case 'left':{
         dir('left');
@@ -114,10 +97,21 @@ function Quotes(){
     }
   };
 
-  const storeData = async  () => {
+
+
+  const displayModal = () => {
+    let show = modalVisible ? 'block' : 'none';
+
+    return ({
+      display: show,
+    });
+  };
+
+
+  const storeData = async () => {
     try {
       let id = uuidv1();
-      let currentQuote = quote + '\n\n' + ' - ' + author;
+      let currentQuote = data[quoteLog[index]].quote + '\n\n' + ' - ' + data[quoteLog[index]].name;
       let alreadySaved = false;
 
       let keys = await AsyncStorage.getAllKeys();
@@ -141,29 +135,24 @@ function Quotes(){
   };
 
   const tweetOut = () => {
-    Linking.openURL('https://twitter.com/intent/tweet?text=' + quote + ' - ' + author);
+    Linking.openURL('https://twitter.com/intent/tweet?text=' + data[quoteLog[index]].quote + ' - ' + data[quoteLog[index]].name);
   };
 
   const onShare = () => {
-    const currentMessage = quote + ' - ' + author;
+    const currentMessage = data[quoteLog[index]].quote + ' - ' + data[quoteLog[index]].name;
 
     Share.share({
       message: currentMessage,
     });
   };
 
-  const displayModal = () => {
 
-    let show = modalVisible ? 'block' : 'none';
+  if (isLoading) return (<LoadScreen/>);
 
-    return ({
-      display: show,
-    });
-  };
+  if (error) return <Text style={{ color: 'white', fontSize: 45}}>An error has occured: {error.message}</Text>;
 
-  function QuoteView(){
-      return (
-        <View style={{marginTop:'6%'}}>
+  return (
+    <View style={{marginTop:'6%'}}>
 
           <View style={{
             flex: 1,
@@ -175,7 +164,7 @@ function Quotes(){
                   <Image
                     style={{ width: 70, height: 70, borderRadius: 35}}
                     source={{
-                      uri: imageUrl,
+                      uri: data[quoteLog[index]].image,
                     }}
                     resizeMode="cover"
                   />
@@ -183,7 +172,7 @@ function Quotes(){
             </View>
 
             <View style={{ marginLeft: '5%', marginTop: '.2%', width: '65%'}}>
-              <Text style={{ fontSize: 18, color: 'white', textTransform:'capitalize', fontWeight: '400', paddingBottom: '2.5%' }}>{author}</Text>
+              <Text style={{ fontSize: 18, color: 'white', textTransform:'capitalize', fontWeight: '400', paddingBottom: '2.5%' }}>{data[quoteLog[index]].name}</Text>
               <Text style={{ color: 'white', fontSize: 16, paddingBottom: '6%' }}>Occupation</Text>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}/>
             </View>
@@ -192,12 +181,12 @@ function Quotes(){
           {/** Quotes Container */}
           <View style={{ height: '80%', marginTop: '3%'}}>
           <View style={displayModal}>
-            <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={author} imageUrl={imageUrl} bio={authorBio}/>
+            <QuoteModal modalVisible={modalVisible} setModalVisible={setModalVisible} author={data[quoteLog[index]].name} imageUrl={data[quoteLog[index]].image} bio={data[quoteLog[index]].bio}/>
           </View>
               <SwipeGesture style={{height: '85%', width: '100%', marginTop: '3%'}} onSwipePerformed={onSwipePerformed}>
                   <ScrollView>
                       <Text style={{ color: 'white', fontSize: 23, width: '80%', textAlign: 'center', marginLeft: '11%', marginTop: '4%'}}>
-                        {quote}
+                        {data[quoteLog[index]].quote}
                       </Text>
 
                       {/** Botttom Icons */}
@@ -218,27 +207,8 @@ function Quotes(){
               </SwipeGesture>
           </View>
         </View>
-      );
-  }
-
-  return (
-    <SafeAreaView style={{ flex: 1}}>
-        <QuoteView/>
-        <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
-              <BannerAd
-                unitId={TestIds.BANNER}
-                size={BannerAdSize.ADAPTIVE_BANNER}
-                requestOptions={{
-                requestNonPersonalizedAdsOnly: true}}
-                onAdLoaded={() => {
-                console.log('Advert loaded');}}
-                onAdFailedToLoad={(error) => {
-                console.error('Advert failed to load: ', error);}}
-              />
-          </View>
-    </SafeAreaView>
   );
 }
 
-export default Quotes;
+
 
