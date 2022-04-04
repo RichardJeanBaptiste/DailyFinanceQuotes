@@ -46,6 +46,7 @@ function Quotes(){
   const [ quoteLog, setQuoteLog ] = useState([Math.floor(Math.random() * 847)]);
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [savedQuote, setSavedQuote] = useState(true);
 
   // Load Quotes
   const { isLoading, error, data } = useQuery('repoData', () =>
@@ -72,6 +73,8 @@ function Quotes(){
       if (index === 0) return;
       setIndex(() => index - 1);
   };
+
+  // Handle Swiping
 
   const dir = (direction) => {
     if (direction === 'left'){
@@ -105,6 +108,23 @@ function Quotes(){
     return ({
       display: show,
     });
+  };
+
+  const bookmarkStyle = () => {
+    let saveColor;
+
+    if (savedQuote) {
+      saveColor = 'orange';
+    } else {
+      saveColor = 'white';
+    }
+
+
+    return {
+      fontSize: 25,
+      color: saveColor,
+      paddingRight: '9%',
+    };
   };
 
 
@@ -173,7 +193,7 @@ function Quotes(){
 
             <View style={{ marginLeft: '5%', marginTop: '.2%', width: '65%'}}>
               <Text style={{ fontSize: 18, color: 'white', textTransform:'capitalize', fontWeight: '400', paddingBottom: '2.5%' }}>{data[quoteLog[index]].name}</Text>
-              <Text style={{ color: 'white', fontSize: 16, paddingBottom: '6%' }}>Occupation</Text>
+              <Text style={{ color: 'white', fontSize: 16, paddingBottom: '6%' }}>{data[quoteLog[index]].bio.occupation}</Text>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}/>
             </View>
           </View>
@@ -196,7 +216,7 @@ function Quotes(){
                       </TouchableOpacity>
 
                       <TouchableOpacity>
-                          <FontAwesome5 style={{ fontSize: 25, color: 'white', paddingRight: '9%'}} name={'bookmark'} onPress={storeData}/>
+                          <FontAwesome5 style={bookmarkStyle()} name={'bookmark'} onPress={storeData}/>
                       </TouchableOpacity>
 
                       <TouchableOpacity>
