@@ -1,16 +1,7 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
-/**
- *
- * Save Quotes W/ Async Storage
- *      - Get All Keys
- *      - Render in New Component
- *
- * check for new quotes - useFocuseffect()
- * check for duplicate quotes
- * delete quotes onClick
- */
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';

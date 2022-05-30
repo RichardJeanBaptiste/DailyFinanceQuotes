@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
@@ -10,7 +11,7 @@
 /* eslint-disable prettier/prettier */
 
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer} from '@react-navigation/native';
@@ -24,7 +25,7 @@ import { DrawerContent } from './components/DrawerContent';
 import { Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import PushNotification from 'react-native-push-notification';
-import LoadScreen from './components/LoadScreen';
+//import LoadScreen from './components/LoadScreen';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
@@ -32,7 +33,6 @@ LogBox.ignoreLogs([
   // name of the error/warning here, or a regex here
 ]);
 
-//LogBox.ignoreLogs([]);
 
 const MyTheme = {
   dark: false,
@@ -126,9 +126,6 @@ const AboutScreen = ({ navigation }) => (
 */
 
 export default function App() {
-
-  //const [ isLoaded, setIsLoaded] = useState(false);
-
 
   useEffect(() => {
 

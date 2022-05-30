@@ -1,14 +1,14 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import 'react-native-get-random-values';
-import { v1 as uuidv1 } from 'uuid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SwipeGesture from './SwipeGesture';
 //import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
@@ -17,7 +17,6 @@ import BookmarkButton from './BookmarkButton';
 //import Divider from './Divider';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { Button } from 'react-native-elements';
 
 const queryClient = new QueryClient();
 
@@ -49,7 +48,6 @@ function Quotes(){
   const [ quoteLog, setQuoteLog ] = useState([randomQuoteIndex]);
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [savedQuote, setSavedQuote] = useState(false);
 
   // Load Quotes
   const { isLoading, error, data } = useQuery('repoData', () =>
@@ -57,7 +55,6 @@ function Quotes(){
       res.json()
     )
   );
-
 
   // Handle Quote Changes
 
@@ -69,20 +66,12 @@ function Quotes(){
     let temp = [...quoteLog];
     temp.push(randomNumber());
     setQuoteLog(temp);
-    //console.log(' last index ' + index);
-    //console.log(data[quoteLog[index]].quote);
-    let nextIndex = index + 1;
     setIndex(() => index + 1);
-    //console.log('current index ' + index);
-    //console.log(data[quoteLog[index]].quote);
-    //checkIfQuoteSaved();
-
   };
 
   const previousQuote = () => {
       if (index === 0) return;
       setIndex(() => index - 1);
-      //checkIfQuoteSaved();
   };
 
   // Handle Swiping
@@ -111,57 +100,12 @@ function Quotes(){
     }
   };
 
-
-
   const displayModal = () => {
     let show = modalVisible ? 'block' : 'none';
 
     return ({
       display: show,
     });
-  };
-
-  const bookmarkStyle = () => {
-    let saveColor;
-
-    if (savedQuote) {
-      saveColor = 'orange';
-    } else {
-      saveColor = 'white';
-    }
-
-
-    return {
-      fontSize: 25,
-      color: saveColor,
-      paddingRight: '9%',
-    };
-  };
-
-  const storeData = async () => {
-    try {
-      let id = uuidv1();
-      let currentQuote = data[quoteLog[index]].quote + '\n\n' + ' - ' + data[quoteLog[index]].name;
-      let alreadySaved = false;
-
-      let keys = await AsyncStorage.getAllKeys();
-      let values = await AsyncStorage.multiGet(keys);
-
-      values.map((value) => {
-        if (value[1] === currentQuote){
-          alreadySaved = true;
-          return;
-        }
-      });
-
-      if (alreadySaved){
-        return;
-      } else {
-        await AsyncStorage.setItem(id,currentQuote);
-      }
-    } catch (e){
-      console.log(e);
-    }
   };
 
   const tweetOut = () => {
