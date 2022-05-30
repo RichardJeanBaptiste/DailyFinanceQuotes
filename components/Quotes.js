@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import 'react-native-get-random-values';
 import { v1 as uuidv1 } from 'uuid';
@@ -13,9 +13,11 @@ import SwipeGesture from './SwipeGesture';
 //import styles from '../styles/QuoteIndex';
 import QuoteModal from './QuoteModal';
 import LoadScreen from './LoadScreen';
+import BookmarkButton from './BookmarkButton';
 //import Divider from './Divider';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { Button } from 'react-native-elements';
 
 const queryClient = new QueryClient();
 
@@ -43,10 +45,11 @@ export default function QuoteScreen() {
 
 function Quotes(){
 
-  const [ quoteLog, setQuoteLog ] = useState([Math.floor(Math.random() * 847)]);
+  const randomQuoteIndex = Math.floor(Math.random() * 847);
+  const [ quoteLog, setQuoteLog ] = useState([randomQuoteIndex]);
   const [index, setIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [savedQuote, setSavedQuote] = useState(true);
+  const [savedQuote, setSavedQuote] = useState(false);
 
   // Load Quotes
   const { isLoading, error, data } = useQuery('repoData', () =>
@@ -66,12 +69,20 @@ function Quotes(){
     let temp = [...quoteLog];
     temp.push(randomNumber());
     setQuoteLog(temp);
+    //console.log(' last index ' + index);
+    //console.log(data[quoteLog[index]].quote);
+    let nextIndex = index + 1;
     setIndex(() => index + 1);
+    //console.log('current index ' + index);
+    //console.log(data[quoteLog[index]].quote);
+    //checkIfQuoteSaved();
+
   };
 
   const previousQuote = () => {
       if (index === 0) return;
       setIndex(() => index - 1);
+      //checkIfQuoteSaved();
   };
 
   // Handle Swiping
@@ -126,7 +137,6 @@ function Quotes(){
       paddingRight: '9%',
     };
   };
-
 
   const storeData = async () => {
     try {
@@ -215,9 +225,7 @@ function Quotes(){
                           <FontAwesome5 style={{ fontSize: 25, color: 'white',paddingRight: '9%'}} name={'twitter'} onPress={tweetOut}/>
                       </TouchableOpacity>
 
-                      <TouchableOpacity>
-                          <FontAwesome5 style={bookmarkStyle()} name={'bookmark'} onPress={storeData}/>
-                      </TouchableOpacity>
+                      <BookmarkButton quote = {data[quoteLog[index]].quote} name={data[quoteLog[index]].name} />
 
                       <TouchableOpacity>
                           <FontAwesome5 style={{ fontSize: 25, color: 'white'}} name={'share-alt'} onPress={onShare}/>

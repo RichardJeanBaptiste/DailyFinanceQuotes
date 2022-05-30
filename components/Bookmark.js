@@ -81,7 +81,12 @@ function Bookmark(){
 
     return (
       <View style={styles.card}>
-        <Text style={styles.quoteStyle} >{item.quote}</Text>
+        <Text style={styles.quoteStyle} >
+          {JSON.parse(item.quote).quote}
+          {'\n'}
+          {'\n'}
+          - {JSON.parse(item.quote).name.replace(/(?:^|\s|[-"'([{])+\S/g, (c) => c.toUpperCase())}
+        </Text>
         <View style={styles.cardButtons}>
             <TouchableOpacity>
                 <FontAwesome5 style={styles.trashIcon} name={'trash-alt'} onPress={removeBookmark}/>
