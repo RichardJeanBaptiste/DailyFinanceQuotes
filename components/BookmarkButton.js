@@ -24,9 +24,14 @@ function BookmarkButton(props) {
 
         let isQuoteSaved = false;
         values.map((value) => {
-          if (JSON.parse(value[1]).quote === currentQuote){
-            isQuoteSaved = true;
+          try {
+            if (JSON.parse(value[1]).quote === currentQuote){
+              isQuoteSaved = true;
+            }
+          } catch (error) {
+            console.log(error);
           }
+
         });
 
         //console.log(isQuoteSaved);
@@ -69,12 +74,10 @@ function BookmarkButton(props) {
 
 
           values.map((value) => {
-
             if (JSON.parse(value[1]).quote === currentQuote){
               alreadySaved = true;
               return;
             }
-
           });
 
           if (alreadySaved){

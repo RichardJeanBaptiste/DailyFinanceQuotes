@@ -28,8 +28,11 @@ import LoadScreen from './components/LoadScreen';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.',
+  'Setting a timer',
   // name of the error/warning here, or a regex here
 ]);
+
+//LogBox.ignoreLogs([]);
 
 const MyTheme = {
   dark: false,

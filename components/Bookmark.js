@@ -79,14 +79,26 @@ function Bookmark(){
       setList(list.filter((itemList) => {return itemList.id !== item.id;}));
     };
 
+    const JText = () => {
+      if (list.length === 0){
+        return (
+          <View/>
+        );
+      } else {
+        return (
+          <Text style={styles.quoteStyle} >
+            {JSON.parse(item.quote).quote}
+            {'\n'}
+            {'\n'}
+            - {JSON.parse(item.quote).name.replace(/(?:^|\s|[-"'([{])+\S/g, (c) => c.toUpperCase())}
+        </Text>
+        );
+      }
+    };
+
     return (
       <View style={styles.card}>
-        <Text style={styles.quoteStyle} >
-          {JSON.parse(item.quote).quote}
-          {'\n'}
-          {'\n'}
-          - {JSON.parse(item.quote).name.replace(/(?:^|\s|[-"'([{])+\S/g, (c) => c.toUpperCase())}
-        </Text>
+        <JText/>
         <View style={styles.cardButtons}>
             <TouchableOpacity>
                 <FontAwesome5 style={styles.trashIcon} name={'trash-alt'} onPress={removeBookmark}/>
