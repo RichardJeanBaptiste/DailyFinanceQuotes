@@ -16,7 +16,7 @@
  *  Complete Notification Feature
  */
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {LogBox} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer} from '@react-navigation/native';
@@ -27,7 +27,7 @@ import Authors from './components/Authors';
 import Learn from './components/Learn';
 //import About from './components/About';
 import { DrawerContent } from './components/DrawerContent';
-import { Pressable } from 'react-native';
+import { Pressable, Modal, View, Text, Dimensions, TextInput } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import PushNotification from 'react-native-push-notification';
 //import LoadScreen from './components/LoadScreen';
@@ -57,17 +57,72 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 
+const SearchComponent = () => {
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [ text, onChangeText ] = useState('');
+
+  const OpenQuoteModal = () => {
+    setModalVisible(true);
+  };
+
+
+  if (!modalVisible) {
+    return (
+      <Pressable onPress={OpenQuoteModal}>
+        <FontAwesome5 name="searchengin" style={{ color: 'white', fontSize: 25, marginRight: 25, marginTop: 5}}/>
+      </Pressable>
+    );
+  } else {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{ backgroundColor: '#2d3439', height: Dimensions.get('window').height - 730 }}>
+            <View style={{ display: 'flex', flexDirection: 'row',marginLeft: 10}}>
+              <Pressable onPress={() => setModalVisible(!modalVisible)} style={{ marginTop: 13.5}}>
+                <FontAwesome5 name="arrow-left" style={{ color: 'white', fontSize: 20}}/>
+              </Pressable>
+              <TextInput
+                style={{ backgroundColor: '#2d3439', marginLeft: 15, width: 350, color: 'white', fontSize: 18}}
+                onChangeText={onChangeText}
+                value={text}
+                placeholder="Searching for an author?"
+                placeholderTextColor={'white'}
+                autoFocus={true}
+              />
+            </View>
+        </View>
+      </Modal>
+    );
+  }
+};
+
+/**
+ * 
+ *  
+ * 
+ */
+
 const HomeStackScreen = ({ navigation }) => (
   <Stack.Navigator>
         <Stack.Screen name="Home" component={Quotes}
-        options={{title: 'Daily Finance',
-        headerTitleAlign: 'center',
-        headerLeft : () => (
-          <Pressable onPress={() => navigation.openDrawer()}>
-            <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
-          </Pressable>
-        ),
-        }}
+          options={{title: 'Daily Finance',
+          headerTitleAlign: 'center',
+          headerLeft : () => (
+            <Pressable onPress={() => navigation.openDrawer()}>
+              <FontAwesome5 name="bars" style={{ color: 'white', fontSize: 20, marginLeft: 15}}/>
+            </Pressable>
+          ),
+          headerRight : () => (
+            <SearchComponent/>
+          ),
+          }}
         />
   </Stack.Navigator>
 );
