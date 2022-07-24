@@ -10,6 +10,11 @@
 
 /* eslint-disable prettier/prettier */
 
+/**
+ *  Update Heroku Api
+ *  Build Search Function
+ *  Complete Notification Feature
+ */
 
 import React, {useEffect} from 'react';
 import {LogBox} from 'react-native';
@@ -152,7 +157,6 @@ export default function App() {
     });
   },[]);
 
-  // <Drawer.Screen name="About" component={AboutScreen}/>
   return (
     <NavigationContainer theme={MyTheme} >
         <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <DrawerContent {...props} />}>
@@ -161,6 +165,7 @@ export default function App() {
           <Drawer.Screen name="Favorites" component={BookmarkScreen}/>
           <Drawer.Screen name="Authors" component={AuthorScreen}/>
           <Drawer.Screen name="Learn" component={LearnScreen}/>
+          {/* <Drawer.Screen name="About" component={AboutScreen}/> */}
         </Drawer.Navigator>
     </NavigationContainer>
   );
