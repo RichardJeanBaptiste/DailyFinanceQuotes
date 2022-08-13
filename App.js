@@ -79,7 +79,7 @@ const SearchComponent = (props) => {
       .then((response) => response.json())
       .then((data) => {
         if (data === []){
-          console.log('empty');
+          //console.log('empty');
         } else {
           setModalVisible(false);
           props.goToSearchScreen(data);
@@ -92,7 +92,7 @@ const SearchComponent = (props) => {
   if (!modalVisible) {
     return (
       <Pressable onPress={OpenQuoteModal}>
-        <FontAwesome5 name="searchengin" style={{ color: 'white', fontSize: 25, marginRight: 25, marginTop: 5}}/>
+        <FontAwesome5 name="searchengin" style={{ color: 'white', fontSize: 25, marginRight: 20, marginTop: 5}}/>
       </Pressable>
     );
   } else {
@@ -137,7 +137,7 @@ const HomeStackScreen = ({ navigation }) => (
             </Pressable>
           ),
           headerRight : () => (
-            <SearchComponent goToSearchScreen={(quotes) => navigation.navigate('Search2', {data: quotes})}/>
+            <SearchComponent goToSearchScreen={(quotes) => navigation.navigate('Search2', {data: quotes,})}/>
           ),
           }}
         />

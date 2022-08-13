@@ -1,12 +1,78 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import SwipeGesture from './SwipeGesture';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import BookmarkButton from './BookmarkButton';
+import TweetButton from './TweetButton';
+import ShareButton from './ShareButton';
 
-
-//const Stack = createNativeStackNavigator();
 
 export default function Search({ route, navigation }) {
+
+    const maxWidth = Dimensions.get('window').width;
+    //const maxHeight = Dimensions.get('window').height;
+
+    const Styles = {
+        swipeGestureStyle: {
+            height: '85%',
+            width: '100%',
+            marginTop: '3%',
+        },
+        quoteStyle: {
+            color: 'white',
+            fontSize: 23,
+            width: '80%',
+            textAlign: 'center',
+            marginLeft: '11%',
+            marginTop: '4%',
+        },
+        authorStyle: {
+            color: 'white',
+            fontSize: 23,
+            width: '80%',
+            textAlign: 'center',
+            marginLeft: '11%',
+            marginTop: '4%',
+            textTransform: 'capitalize',
+        },
+        emptySearchView: {
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            marginTop: 60,
+            width: 300,
+        },
+        emptySearchIcon: {
+            color: 'white',
+            fontSize: 25,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+        emptySearchText: {
+            color: 'white',
+            textAlign: 'center',
+            marginTop: 15,
+            fontSize: 20,
+        },
+        buttonView: {
+            display: 'flex',
+            flexDirection: 'row',
+            marginTop: '14%',
+            marginLeft: '8.5%',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+        },
+        tweetButtonStyle: {
+            fontSize: 25,
+            color: 'white',
+            paddingRight: '9%',
+        },
+        shareButtonStyle: {
+            fontSize: 25,
+            color: 'white'
+        }
+    };
 
     const { data } = route.params;
 
@@ -73,10 +139,6 @@ export default function Search({ route, navigation }) {
                 return data[index].quote;
             }
             */
-
-            if(data[index].quotes === ' '){
-                console.log('empty quote');
-            }
            if (data[index].quote === 'Undefined Quote' && index === data.length){
 
                 console.log('--- call 1');
@@ -92,15 +154,22 @@ export default function Search({ route, navigation }) {
         };
 
         return (
-            <SwipeGesture style={{height: '85%', width: '100%', marginTop: '3%'}} onSwipePerformed={onSwipePerformed}>
+            <SwipeGesture style={Styles.swipeGestureStyle} onSwipePerformed={onSwipePerformed}>
                 <ScrollView>
-                    <Text style={{ color: 'white', fontSize: 23, width: '80%', textAlign: 'center', marginLeft: '11%', marginTop: '4%'}}>
+                    <Text style={Styles.quoteStyle}>
                         {handleQuote()}
                     </Text>
 
-                    <Text style={{ color: 'white', fontSize: 23, width: '80%', textAlign: 'center', marginLeft: '11%', marginTop: '4%', textTransform: 'capitalize'}}>
+                    <Text style={Styles.authorStyle}>
                         - {data[index].name}
                     </Text>
+
+                    <View style={Styles.buttonView}>
+                        <TweetButton buttonStyle={Styles.tweetButtonStyle}  quote={data[index].quote} name={data[index].name}/>
+                        <BookmarkButton quote={data[index].quote} name={data[index].name} />
+                        <ShareButton shareStyle={Styles.shareButtonStyle} quote={data[index].quote} name={data[index].name} />
+                    </View>
+
                 </ScrollView>
             </SwipeGesture>
         );
@@ -108,10 +177,11 @@ export default function Search({ route, navigation }) {
 
     function EmptySearchResults(){
         return (
-            <View>
-                <Text>Empty Search Results</Text>
+            <View style={Styles.emptySearchView}>
+                <FontAwesome5 name="searchengin" style={Styles.emptySearchIcon}/>
+                <Text style={Styles.emptySearchText}>We couldn't find what you were searching for?</Text>
             </View>
-        )
+        );
     }
 
     if (loadSearch){
