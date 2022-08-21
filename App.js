@@ -29,8 +29,7 @@ import Bookmark from './components/Bookmark';
 import Authors from './components/Authors';
 import Learn from './components/Learn';
 import Search from './components/Search';
-//import SearchScreenNav from './components/SearchScreenNav';
-//import About from './components/About';
+import About from './components/About';
 import { DrawerContent } from './components/DrawerContent';
 import { Pressable, Modal, View, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -213,11 +212,11 @@ const SearchScreen = ({ navigation }) => (
 );
 
 
-/*
+
 const AboutScreen = ({ navigation }) => (
   <Stack.Navigator>
         <Stack.Screen name="About" component={About}
-        options={{title: 'Authors',headerTitleAlign: 'center',
+        options={{title: 'About',headerTitleAlign: 'center',
         headerStyle:{ backgroundColor: 'rgb(28,28,28)'},
         headerLeft : () => (
           <Pressable onPress={() => navigation.openDrawer()}>
@@ -227,7 +226,7 @@ const AboutScreen = ({ navigation }) => (
         }}/>
   </Stack.Navigator>
 );
-*/
+
 
 export default function App() {
 
@@ -242,6 +241,16 @@ export default function App() {
     });
 
     PushNotification.getScheduledLocalNotifications((response) => {
+
+      function randomQuote(){
+
+        fetch('https://financequotesapi.herokuapp.com/quotes/all/random')
+          .then((res) => res.json())
+          .then((data) => {
+            return data;
+        });
+      }
+
       if (response.length === 0){
         PushNotification.localNotificationSchedule({
           channelId: 'Daily-Channel',
@@ -265,7 +274,7 @@ export default function App() {
           <Drawer.Screen name="Authors" component={AuthorScreen}/>
           <Drawer.Screen name="Learn" component={LearnScreen}/>
           <Drawer.Screen name="Search" component={SearchScreen}/>
-          {/* <Drawer.Screen name="About" component={AboutScreen}/> */}
+          <Drawer.Screen name="About" component={AboutScreen}/>
         </Drawer.Navigator>
     </NavigationContainer>
   );

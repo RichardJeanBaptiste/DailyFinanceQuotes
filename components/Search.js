@@ -10,7 +10,7 @@ import ShareButton from './ShareButton';
 
 export default function Search({ route, navigation }) {
 
-    const maxWidth = Dimensions.get('window').width;
+    //const maxWidth = Dimensions.get('window').width;
     //const maxHeight = Dimensions.get('window').height;
 
     const Styles = {
@@ -58,7 +58,7 @@ export default function Search({ route, navigation }) {
             display: 'flex',
             flexDirection: 'row',
             marginTop: '14%',
-            marginLeft: '8.5%',
+            marginLeft: '1%',
             justifyContent: 'center',
             alignItems: 'center',
 
@@ -70,8 +70,8 @@ export default function Search({ route, navigation }) {
         },
         shareButtonStyle: {
             fontSize: 25,
-            color: 'white'
-        }
+            color: 'white',
+        },
     };
 
     const { data } = route.params;

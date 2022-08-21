@@ -9,7 +9,7 @@ export default function Divider() {
     return (
         <View
             style={{
-                borderBottomColor: 'black',
+                borderBottomColor: 'grey',
                 borderBottomWidth: 1,
             }}
         />

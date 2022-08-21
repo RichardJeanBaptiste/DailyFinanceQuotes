@@ -46,10 +46,15 @@ export function DrawerContent(props) {
                 label={()=> { return (<Text style={styles.navigationFontStyle}>Authors</Text>);}}
                 onPress={() => {props.navigation.navigate('Authors');}}
             />
-             <DrawerItem
+            <DrawerItem
                 icon = {(color,size) => <Icon color={'orange'} size= {30} name="book"/>}
                 label={()=> { return (<Text style={styles.navigationFontStyle}>Learn</Text>);}}
                 onPress={() => {props.navigation.navigate('Learn');}}
+            />
+            <DrawerItem
+                icon = {(color,size) => <Icon color={'orange'} size= {30} name="info"/>}
+                label={()=> { return (<Text style={styles.navigationFontStyle}>About</Text>);}}
+                onPress={() => {props.navigation.navigate('About');}}
             />
             </DrawerContentScrollView>
         </View>
