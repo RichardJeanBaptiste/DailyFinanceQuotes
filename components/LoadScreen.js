@@ -5,6 +5,7 @@
 import React, {} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
 import LottieView from 'lottie-react-native';
+//import Typed from 'react-typed';
 
 function LoadScreen(){
     return (
