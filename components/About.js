@@ -2,7 +2,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import {SafeAreaView, Text, View, Image, ScrollView, Pressable, Linking, Modal, Dimensions, Button} from 'react-native';
+import {SafeAreaView, Text, View, Image, ScrollView, Pressable, Linking, Modal, Dimensions, Button, FlatList} from 'react-native';
 import ProfPic from '../assets/prof.jpg';
 import Divider from './Divider';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -106,7 +106,7 @@ function About(){
         modalFooterView: {
             display: 'flex',
             flexDirection: 'row',
-            width: windowWidth - 80,
+            width: windowWidth - 100,
             position: 'absolute',
             bottom: 20,
         },
@@ -114,17 +114,19 @@ function About(){
             color: 'orange',
             fontSize: 15,
             marginRight: 'auto',
-            marginLeft: '3%',
+            marginLeft: '5%',
         },
         modalFooterText2: {
             color: 'orange',
             fontSize: 15,
             marginLeft: 'auto',
-            marginRight: '3%',
+            marginRight: '7%',
         },
     };
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [rated, setRated] = useState(false);
     //const [ canReviewApp, setCanReviewApp ] = useState(false);
 
     /*
@@ -142,37 +144,89 @@ function About(){
         Linking.openURL('mailto:Richinbk1@gmail.com');
     };
 
-    const RateButton = () => {
-        const [rated, setRated] = useState(false);
-        return (
-            <View>
-                <Button title="Rate App" onPress={()=>{
-                const options = {
-                    //AppleAppID:"2193813192",
-                    GooglePackageName:'com.financequotes',
-                    //AmazonPackageName:"com.mywebsite.myapp",
-                    //OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
-                    preferredAndroidMarket: AndroidMarket.Google,
-                    preferInApp:false,
-                    openAppStoreIfInAppFails:true,
-                    //fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
-                };
-                Rate.rate(options, (success, errorMessage)=>{
-                    if (success) {
-                    // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
-                        setRated(true);
-                    }
-                    if (errorMessage) {
-                    // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
-                        console.error(`Example page Rate.rate() error: ${errorMessage}`);
-                    }
-                });
-                }} />
-            </View>
-        );
+    const rateApp = () => {
+
+        const options = {
+            //AppleAppID:"2193813192",
+            GooglePackageName:'com.financequotes',
+            //AmazonPackageName:"com.mywebsite.myapp",
+            //OtherAndroidURL:"http://www.randomappstore.com/app/47172391",
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp:false,
+            openAppStoreIfInAppFails:true,
+            //fallbackPlatformURL:"http://www.mywebsite.com/myapp.html",
+        };
+
+        Rate.rate(options, (success, errorMessage)=>{
+            if (success) {
+            // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+                setRated(true);
+            }
+            if (errorMessage) {
+            // errorMessage comes from the native code. Useful for debugging, but probably not for users to view
+                console.error(`Example page Rate.rate() error: ${errorMessage}`);
+            }
+        });
     };
 
     const ChangeLogModal = () => {
+
+        const ChangeBlock = (props) => {
+
+            const Style = {
+                root: {
+                    marginTop: '7%',
+                    paddingBottom: '7%',
+                },
+                header: {
+                    display: 'flex',
+                    flexDirection: 'row',
+                },
+                headerText1: {
+                    marginRight: 'auto',
+                    fontSize: 18,
+                    color: 'white',
+                },
+                headerText2: {
+                    marginLeft: 'auto',
+                    fontSize: 18,
+                    color: 'white',
+                },
+            };
+
+            const renderItem = ({ item }) => (
+                <View>
+                    <Text style={{ color: 'white', fontSize: 18, paddingBottom: 10}}><Text style={{ color: 'green'}}>New:</Text> {item.info}</Text>
+                </View>
+            );
+
+            const renderItem2 = ({ item }) => (
+                <View>
+                    <Text style={{ color: 'white', fontSize: 18, paddingBottom: 10 }}><Text style={{ color: 'red'}}>Bug:</Text> {item.info}</Text>
+                </View>
+            );
+
+            return (
+                <View style={Style.root}>
+                    <View style={Style.header}>
+                        <Text style={Style.headerText1}>{props.appVersion}</Text>
+                        <Text style={Style.headerText2}>{props.date}</Text>
+                    </View>
+                    <View style={{ marginTop: '4%'}}>
+                        <FlatList
+                            data={props.newFeatures}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id}
+                        />
+                        <FlatList
+                            data={props.bugFixes}
+                            renderItem={renderItem2}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </View>
+            );
+        };
 
         return (
             <View>
@@ -185,8 +239,17 @@ function About(){
                     }}
                 >
                     <View style={Styles.centeredView}>
+                        <ScrollView style={{ width: windowWidth - 120}}>
+                            <Text style={{ textAlign: 'center', fontSize: 22, color: 'white', marginTop: '6%'}}>Change Log</Text>
+                            <View style={{ marginTop: '15%'}}>
+                                <ChangeBlock appVersion="v1.5" date="08/23/22"
+                                    newFeatures= {[{id: '1', info: 'Search feature added'}, {id: '2', info: 'Save quotes feature added'} ]}
+                                    bugFixes={[{id: '4', info: 'Fixes stability issues and network issues'}]}
+                                />
+                            </View>
+                        </ScrollView>
                         <View style={Styles.modalFooterView}>
-                            <Text style={Styles.modalFooterText}>Rate App</Text>
+                            <Text onPress={rateApp} style={Styles.modalFooterText}>Rate App</Text>
                             <Text style={Styles.modalFooterText2} onPress={() => setModalVisible(false)}>Close</Text>
                         </View>
                     </View>
@@ -214,8 +277,7 @@ function About(){
                 <View style={Styles.appView}>
                     <Text style={Styles.appText}>Daily Finance Inspiration</Text>
 
-                    <RateButton/>
-                    <Pressable>
+                    <Pressable onPress={rateApp}>
                         <View style={Styles.rateAppView}>
                             <Text style={Styles.rateAppText}>Rate App</Text>
                             <Text style={Styles.rateAppText2}>Help me out by rating the app on the Google Play Store</Text>
@@ -248,8 +310,14 @@ function About(){
 
                 <Divider/>
                 <View style={Styles.privacyPolicyView}>
-                    <Text style={Styles.genericText}>Privacy Policy</Text>
-                    <Text style={Styles.genericText}>Terms & Conditions</Text>
+                    <Pressable onPress={() => Linking.openURL('https://financequotesapi.herokuapp.com/policies/privacy')}>
+                        <Text style={Styles.genericText}>Privacy Policy</Text>
+                    </Pressable>
+
+                    <Pressable style={{ marginTop: '2%'}} onPress={() => Linking.openURL('https://financequotesapi.herokuapp.com/policies/terms')}>
+                        <Text style={Styles.genericText}>Terms & Conditions</Text>
+                    </Pressable>
+
                 </View>
             </ScrollView>
         </SafeAreaView>

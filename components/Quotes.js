@@ -51,6 +51,7 @@ function Quotes(){
 
   // Load Quotes
   const { isLoading, error, data } = useQuery('repoData', () =>
+
     fetch('https://financequotesapi.herokuapp.com/quotes/all').then(res =>
       res.json()
     )
