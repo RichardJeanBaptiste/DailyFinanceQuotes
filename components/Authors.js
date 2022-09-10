@@ -67,7 +67,7 @@ function Authors() {
 
     return (
       <SafeAreaView>
-        <ScrollView style={styles.scrollStyle} contentContainerStyle={{paddingBottom: '35%'}}>
+        <ScrollView style={styles.scrollStyle} contentContainerStyle={{paddingBottom: '35%', marginLeft: '-4%'}}>
           <View style={styles.rowStyle}>
             <AuthorModal
               author = "Warren Buffett"

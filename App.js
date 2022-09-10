@@ -11,8 +11,6 @@
 /* eslint-disable prettier/prettier */
 
 /**
- *  Update Heroku Api
- *  Build Search Function
  *  Complete Notification Feature
  *  Important Finance Terms Screen
  *  Crypto Terms Screen
@@ -242,26 +240,29 @@ export default function App() {
 
     PushNotification.getScheduledLocalNotifications((response) => {
 
-      function randomQuote(){
 
         fetch('https://financequotesapi.herokuapp.com/quotes/all/random')
           .then((res) => res.json())
           .then((data) => {
-            return data;
-        });
-      }
+            console.log(data.quote);
+            if (response.length === 0){
+              PushNotification.localNotificationSchedule({
+                channelId: 'Daily-Channel',
+                channelName: 'Daily-Channel-Notification',
+                title: 'Daily Finance Inspiration',
+                message: data.quote,
+                allowWhileIdle: true,
+                date: tommorrow,
+              });
+            } else {
+              //console.log('Notification Exists');
+            }
+          })
+          .catch((e) => {
+            //console.log('abcd');
+            console.log(e);
+          });
 
-      if (response.length === 0){
-        PushNotification.localNotificationSchedule({
-          channelId: 'Daily-Channel',
-          channelName: 'Daily-Channel-Notification',
-          message: 'Daily Notification',
-          allowWhileIdle: true,
-          date: tommorrow,
-        });
-      } else {
-        //console.log('Notification Exists');
-      }
     });
   },[]);
 

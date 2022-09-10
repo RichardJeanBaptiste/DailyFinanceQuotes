@@ -32,27 +32,27 @@ export function DrawerContent(props) {
         <View style={styles.drawerStyle}>
             <DrawerContentScrollView {... props}>
             <DrawerItem
-                icon = {(color,size) => <Icon color={'orange'} size= {30} name="home"/>}
-                label={()=> { return (<Text style={styles.navigationFontStyle}>Home</Text>);}}
+                icon = {(color,size) => <Icon style={{ marginLeft: '-2%'}} color={'orange'} size= {30} name="home"/>}
+                label={()=> { return (<Text style={{color: 'white', fontSize: 15, fontFamily: 'monospace', fontWeight: 'bold', marginLeft: '-5%'}}>Home</Text>);}}
                 onPress={() => {props.navigation.navigate('Home');}}
             />
             <DrawerItem
                 icon = {(color,size) => <Icon color={'orange'} size= {30} name="bookmark"/>}
-                label={()=> { return (<Text style={styles.navigationFontStyle}>Saved</Text>);}}
+                label={()=> { return (<Text style={{color: 'white', fontSize: 15, fontFamily: 'monospace', fontWeight: 'bold', marginLeft: '-3%'}}>Saved</Text>);}}
                 onPress={() => {props.navigation.navigate('Favorites');}}
             />
              <DrawerItem
                 icon = {(color,size) => <Icon color={'orange'} size= {30} name="user"/>}
-                label={()=> { return (<Text style={styles.navigationFontStyle}>Authors</Text>);}}
+                label={()=> { return (<Text style={{color: 'white', fontSize: 15, fontFamily: 'monospace', fontWeight: 'bold', marginLeft: '-3%'}}>Authors</Text>);}}
                 onPress={() => {props.navigation.navigate('Authors');}}
             />
             <DrawerItem
                 icon = {(color,size) => <Icon color={'orange'} size= {30} name="book"/>}
-                label={()=> { return (<Text style={styles.navigationFontStyle}>Learn</Text>);}}
+                label={()=> { return (<Text style={{color: 'white', fontSize: 15, fontFamily: 'monospace', fontWeight: 'bold', marginLeft: '-13%'}}>Learn</Text>);}}
                 onPress={() => {props.navigation.navigate('Learn');}}
             />
             <DrawerItem
-                icon = {(color,size) => <Icon color={'orange'} size= {30} name="info"/>}
+                icon = {(color,size) => <Icon style={{ marginLeft: '5%'}}color={'orange'} size= {30} name="info"/>}
                 label={()=> { return (<Text style={styles.navigationFontStyle}>About</Text>);}}
                 onPress={() => {props.navigation.navigate('About');}}
             />

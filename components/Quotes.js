@@ -4,7 +4,7 @@
 /* eslint-disable prettier/prettier */
 
 import 'react-native-gesture-handler';
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {SafeAreaView, Text, ScrollView, View, Linking, Share, Image, Pressable} from 'react-native';
 import 'react-native-get-random-values';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -21,25 +21,54 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 const queryClient = new QueryClient();
 
 export default function QuoteScreen() {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={{ flex: 1}}>
-          <Quotes/>
-            <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
-                <BannerAd
-                  unitId={TestIds.BANNER}
-                  size={BannerAdSize.ADAPTIVE_BANNER}
-                  requestOptions={{
-                  requestNonPersonalizedAdsOnly: true}}
-                  onAdLoaded={() => {
-                  console.log('Advert loaded');}}
-                  onAdFailedToLoad={(e) => {
-                  console.error('Advert failed to load: ', e);}}
-                />
-            </View>
+
+    const [ canLoad, setCanLoad ] = useState(true);
+
+    useEffect(() => {
+      fetch('https://financequotesapi.herokuapp.com/quotes/all/random')
+          .then((res) => res.json())
+          .then((data) => {
+            //console.log(data);
+            setCanLoad(true);
+          })
+          .catch((e) => {
+            //console.log('abcd');
+            setCanLoad(false);
+            console.log(e);
+          });
+    },[]);
+
+    if (canLoad) {
+      return (
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaView style={{ flex: 1}}>
+            <Quotes/>
+              <View style={{ position: 'absolute', bottom: 0, width: '100%'}}>
+                  <BannerAd
+                    unitId={TestIds.BANNER}
+                    size={BannerAdSize.ADAPTIVE_BANNER}
+                    requestOptions={{
+                    requestNonPersonalizedAdsOnly: true}}
+                    onAdLoaded={() => {
+                    console.log('Advert loaded');}}
+                    onAdFailedToLoad={(e) => {
+                    console.error('Advert failed to load: ', e);}}
+                  />
+              </View>
+          </SafeAreaView>
+        </QueryClientProvider>
+      );
+    } else {
+      return (
+        <SafeAreaView>
+          <View>
+            <Text style={{ color: 'white', fontSize: 22, textAlign: 'center', marginTop: 30}}>Something went wrong!</Text>
+            <Text style={{ color: 'white', fontSize: 18, textAlign: 'center', marginTop: 10}}>We'll get this fixed right away</Text>
+          </View>
         </SafeAreaView>
-      </QueryClientProvider>
-    );
+      )
+    }
+
 }
 
 function Quotes(){
@@ -54,7 +83,9 @@ function Quotes(){
 
     fetch('https://financequotesapi.herokuapp.com/quotes/all').then(res =>
       res.json()
-    )
+    ).catch((e) => {
+      console.log('quotes error');
+    })
   );
 
   // Handle Quote Changes
