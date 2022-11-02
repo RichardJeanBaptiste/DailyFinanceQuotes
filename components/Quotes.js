@@ -16,7 +16,7 @@ import LoadScreen from './LoadScreen';
 import BookmarkButton from './BookmarkButton';
 //import Divider from './Divider';
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
@@ -28,13 +28,14 @@ export default function QuoteScreen() {
       fetch('https://financequotesapi.herokuapp.com/quotes/all/random')
           .then((res) => res.json())
           .then((data) => {
+            //console.log("----------Use Effect---------------------");
             //console.log(data);
             setCanLoad(true);
           })
           .catch((e) => {
             //console.log('abcd');
             setCanLoad(false);
-            console.log(e);
+            //console.log(e);
           });
     },[]);
 
@@ -79,6 +80,7 @@ function Quotes(){
   const [modalVisible, setModalVisible] = useState(false);
 
   // Load Quotes
+  /*
   const { isLoading, error, data } = useQuery('repoData', () =>
 
     fetch('https://financequotesapi.herokuapp.com/quotes/all').then(res =>
@@ -87,6 +89,19 @@ function Quotes(){
       console.log('quotes error');
     })
   );
+    */
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: () =>
+      fetch('https://financequotesapi.herokuapp.com/quotes/all').then(res =>
+        res.json()
+      ).catch((e) => {
+        console.log(e);
+        console.log('quotes error');
+      }),
+  });
+
 
   // Handle Quote Changes
 
